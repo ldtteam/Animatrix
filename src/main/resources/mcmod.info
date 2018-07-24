@@ -1,0 +1,16 @@
+[
+{
+  "modid": "animatrix",
+  "name": "Animatrix",
+  "description": "Library mod that provides support for skeleton based rendering.",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["LDT-Team"],
+  "credits": "",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]

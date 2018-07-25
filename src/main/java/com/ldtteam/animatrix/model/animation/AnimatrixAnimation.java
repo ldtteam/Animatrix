@@ -16,7 +16,7 @@ import java.util.function.Consumer;
  * Represents a simple animation in Animatix.
  */
 @SideOnly(Side.CLIENT)
-public class AnimatrixAnimation
+public class AnimatrixAnimation implements IAnimation
 {
 
     private final IModel model;
@@ -37,6 +37,7 @@ public class AnimatrixAnimation
      *
      * @return The total length of the animation in ticks.
      */
+    @Override
     public int getTotalLengthInTicks()
     {
         return totalLengthInTicks;
@@ -47,6 +48,7 @@ public class AnimatrixAnimation
      *
      * @return The keyframes of the animation.
      */
+    @Override
     public IKeyFrame[] getKeyFrames()
     {
         return keyFrames;
@@ -61,6 +63,7 @@ public class AnimatrixAnimation
      *
      * @param onAnimationCompleted Callback called when animation completes.
      */
+    @Override
     public void update(final Consumer<AnimatrixAnimation> onAnimationCompleted) {
         increaseAnimationTime(onAnimationCompleted);
         final Map<String, Matrix4f> currentPose = calculateCurrentAnimationPose();

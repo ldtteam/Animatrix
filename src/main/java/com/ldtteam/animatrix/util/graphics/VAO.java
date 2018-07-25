@@ -1,16 +1,21 @@
 package com.ldtteam.animatrix.util.graphics;
 
 import com.google.common.collect.Lists;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL15;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
 
+import java.lang.ref.PhantomReference;
+import java.lang.ref.WeakReference;
 import java.util.Collection;
 
 /**
- * Represents a Vertex Array Object
+ * Represents a OpenGL version 3.0 memory array on the GPU.
  */
+@SideOnly(Side.CLIENT)
 public class VAO
 {
     private static final int             BYTES_PER_FLOAT = 4;
@@ -20,19 +25,29 @@ public class VAO
     private              VBO             indexVbo;
     private              int             indexCount;
 
-    public static VAO create() {
-        final int id = GL30.glGenVertexArrays();
-        return new VAO(id);
-    }
-
-    private VAO(final int id) {
+    /**
+     * Creates a new VAO representation instance in memory after it has been created on the GPU.
+     * @param id The id of the VAO on disk.
+     */
+    VAO(final int id) {
         this.id = id;
     }
 
+    /**
+     * Returns the amount of elements in the array (not unique).
+     *
+     * @return The amount of indexi stored in the index buffer.
+     */
     public int getIndexCount(){
         return indexCount;
     }
 
+    /**
+     * Enables the given set of attributes on the GPU for this VAO.
+     * Also binds the VAO as the active VAO on the GPU.
+     *
+     * @param attributes The attributes to enable.
+     */
     public void bind(final int... attributes){
         bind();
         for (final int i : attributes) {
@@ -40,6 +55,12 @@ public class VAO
         }
     }
 
+    /**
+     * Disables the given set of attributes on the GPU for this VAO.
+     * Also unbinds the VAO as the active VAO on the GPU.
+     *
+     * @param attributes The attributes to disable.
+     */
     public void unbind(final int... attributes){
         for (final int i : attributes) {
             GL20.glDisableVertexAttribArray(i);
@@ -48,14 +69,22 @@ public class VAO
     }
 
     public void createIndexBuffer(final int[] indices){
-        this.indexVbo = VBO.create(GL15.GL_ELEMENT_ARRAY_BUFFER);
+        this.indexVbo = GPUManager.getInstance().createVBO(GL15.GL_ELEMENT_ARRAY_BUFFER);
         indexVbo.bind();
         indexVbo.storeData(indices);
         this.indexCount = indices.length;
     }
 
-    public void createAttribute(final int attribute, final float[] data, int attrSize){
-        final VBO dataVbo = VBO.create(GL15.GL_ARRAY_BUFFER);
+    /**
+     * Creates a float-data based attribute.
+     * Creates a new VBO to store the the data in and modifies this VAO to point the attribute to the given data.
+     *
+     * @param attribute The id of the attribute.
+     * @param data The float-data to store.
+     * @param attrSize The size of a float in memory (usually 4 bytes -> so 4)
+     */
+    public void createAttribute(final int attribute, final float[] data, final int attrSize){
+        final VBO dataVbo = GPUManager.getInstance().createVBO(GL15.GL_ARRAY_BUFFER);
         dataVbo.bind();
         dataVbo.storeData(data);
         GL20.glVertexAttribPointer(attribute, attrSize, GL11.GL_FLOAT, false, attrSize * BYTES_PER_FLOAT, 0);
@@ -63,8 +92,16 @@ public class VAO
         dataVBOs.add(dataVbo);
     }
 
+    /**
+     * Creates a int-data based attribute.
+     * Creates a new VBO to store the the data in and modifies this VAO to point the attribute to the given data.
+     *
+     * @param attribute The id of the attribute.
+     * @param data The int-data to store.
+     * @param attrSize The size of a int in memory (usually 4 bytes -> so 4)
+     */
     public void createIntAttribute(final int attribute, final int[] data, int attrSize){
-        final VBO dataVbo = VBO.create(GL15.GL_ARRAY_BUFFER);
+        final VBO dataVbo = GPUManager.getInstance().createVBO(GL15.GL_ARRAY_BUFFER);
         dataVbo.bind();
         dataVbo.storeData(data);
         GL30.glVertexAttribIPointer(attribute, attrSize, GL11.GL_INT, attrSize * BYTES_PER_INT, 0);
@@ -72,20 +109,32 @@ public class VAO
         dataVBOs.add(dataVbo);
     }
 
-    public void delete() {
-        GL30.glDeleteVertexArrays(id);
-        for(final VBO vbo : dataVBOs){
-            vbo.delete();
-        }
-        indexVbo.delete();
-    }
-
+    /**
+     * Makes the current VAO the active VAO in the GPU Memory.
+     */
     private void bind() {
         GL30.glBindVertexArray(id);
     }
 
+    /**
+     * Unbinds the current VAO as the active VAO in the GPU Memory.
+     */
     private void unbind() {
         GL30.glBindVertexArray(0);
     }
 
+    @SuppressWarnings("FinalizeDeclaration")
+    @Override
+    protected void finalize()
+    {
+        GPUManager.getInstance().markVAOForClear(this.id);
+    }
+
+    @Override
+    public String toString()
+    {
+        return "VAO{" +
+                 "id=" + id +
+                 '}';
+    }
 }

@@ -1,10 +1,9 @@
 package com.ldtteam.animatrix.util.graphics;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL15;
-import scala.actors.threadpool.Arrays;
 
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
@@ -12,21 +11,11 @@ import java.nio.IntBuffer;
 /**
  * Represents a OpenGL version 1.5 memory buffer on the GPU.
  */
+@SideOnly(Side.CLIENT)
 public final class VBO
 {
     private final int vboId;
     private final int type;
-
-    /**
-     * Creates a new VBO for the given type.
-     *
-     * @param type The type.
-     * @return The VBO.
-     */
-    public static VBO create(final int type){
-        final int id = GL15.glGenBuffers();
-        return new VBO(id, type);
-    }
 
     /**
      * Creates a new VBO for the given ID and type.
@@ -34,7 +23,7 @@ public final class VBO
      * @param vboId The id of the VBO on the GPU.
      * @param type The type of the VBO.
      */
-    private VBO(final int vboId, final int type){
+    VBO(final int vboId, final int type){
         this.vboId = vboId;
         this.type = type;
     }
@@ -91,10 +80,19 @@ public final class VBO
         GL15.glBufferData(type, data, GL15.GL_STATIC_DRAW);
     }
 
-    /**
-     * Deletes the memory on the GPU.
-     */
-    public void delete(){
-        GL15.glDeleteBuffers(vboId);
+    @SuppressWarnings("FinalizeDeclaration")
+    @Override
+    protected void finalize()
+    {
+        GPUManager.getInstance().markVBOForClear(this.vboId);
+    }
+
+    @Override
+    public String toString()
+    {
+        return "VBO{" +
+                 "vboId=" + vboId +
+                 ", type=" + type +
+                 '}';
     }
 }

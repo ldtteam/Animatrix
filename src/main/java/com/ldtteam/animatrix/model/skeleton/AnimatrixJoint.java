@@ -10,15 +10,17 @@ import java.util.Collection;
 /**
  * Represents a single joint/joint in a Skeleton.
  */
-public class AnimatrixJoint
+public class AnimatrixJoint implements IJoint
 {
     private final int index;
     private final String name;
 
+    private Matrix4f animationModelSpaceTransform = new Matrix4f();
+
     private final Matrix4f jointSpaceBindTransform;
     private Matrix4f       inverseModelSpaceBindTransform = new Matrix4f();
 
-    private final ImmutableCollection<AnimatrixJoint> childJoints;
+    private final ImmutableCollection<IJoint> childJoints;
 
     /**
      * Creates a new joint for a {@link AnimatrixSkeleton}.
@@ -41,6 +43,7 @@ public class AnimatrixJoint
      *
      * @return The index of the joint.
      */
+    @Override
     public int getIndex()
     {
         return index;
@@ -53,22 +56,48 @@ public class AnimatrixJoint
      *
      * @return The name of the joint.
      */
+    @Override
     public String getName()
     {
         return name;
     }
 
     /**
-     * Returns the joint space transformation of this joint.
+     * Returns the current animation transform of this Joint in the model.
+     * The matrix is in ModelSpace so it can be directly transfered to the GPU.
+     *
+     * @return The animation model space transform matrix of this joint.
+     */
+    @Override
+    public Matrix4f getAnimationModelSpaceTransform()
+    {
+        return animationModelSpaceTransform;
+    }
+
+    /**
+     * Sets the animation modelspace transform matrix for this joint.
+     * Identity if the current joint is not moved in the animation.
+     *
+     * @param animationModelSpaceTransform The current animation based modelspace transform matrix.
+     */
+    @Override
+    public void setAnimationModelSpaceTransform(final Matrix4f animationModelSpaceTransform)
+    {
+        this.animationModelSpaceTransform = animationModelSpaceTransform;
+    }
+
+    /**
+     * Returns the model space inverse transformation of this joint.
      * 
-     * Joint space is the space of the joint.
-     * The origin of said space if the parent joint.
+     * Model space is the space of the model.
+     * The origin of said space if the origin of the model.
      * 
      * @return
      */
-    public Matrix4f getJointSpaceBindTransform()
+    @Override
+    public Matrix4f getInverseModelSpaceBindTransform()
     {
-        return jointSpaceBindTransform;
+        return inverseModelSpaceBindTransform;
     }
 
     /**
@@ -77,7 +106,8 @@ public class AnimatrixJoint
      *
      * @return The child joints.
      */
-    public ImmutableCollection<AnimatrixJoint> getChildJoints()
+    @Override
+    public ImmutableCollection<IJoint> getChildJoints()
     {
         return childJoints;
     }
@@ -85,14 +115,24 @@ public class AnimatrixJoint
     /**
      * Updates the {@link AnimatrixJoint#inverseModelSpaceBindTransform} form the given matrix.
      *
-     * @param parentModelSpaceBindTransform
+     * @param parentModelSpaceBindTransform The parent model space transform.
      */
+    @Override
     public void calculateIMSBT(@NotNull final Matrix4f parentModelSpaceBindTransform)
     {
         final Matrix4f msbt = Matrix4f.mul(parentModelSpaceBindTransform, jointSpaceBindTransform, null);
         Matrix4f.invert(msbt, inverseModelSpaceBindTransform);
 
         getChildJoints().forEach(joint -> joint.calculateIMSBT(msbt));
+    }
+
+    @Override
+    public String toString()
+    {
+        return "AnimatrixJoint{" +
+                 "index=" + index +
+                 ", name='" + name + '\'' +
+                 '}';
     }
 }
 

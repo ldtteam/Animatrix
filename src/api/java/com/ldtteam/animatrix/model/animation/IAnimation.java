@@ -1,9 +1,19 @@
 package com.ldtteam.animatrix.model.animation;
 
+import net.minecraft.util.ResourceLocation;
+
 import java.util.function.Consumer;
 
 public interface IAnimation
 {
+
+    /**
+     * Returns the name of the animation.
+     *
+     * @return The name of the animation.
+     */
+    ResourceLocation getName();
+
     /**
      * Returns to total length of the animation in ticks.
      *

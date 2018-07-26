@@ -3,6 +3,7 @@ package com.ldtteam.animatrix.model.animation;
 import com.ldtteam.animatrix.model.IModel;
 import com.ldtteam.animatrix.model.skeleton.IJoint;
 import com.ldtteam.animatrix.util.animation.IJointTransformMath;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.util.vector.Matrix4f;
@@ -19,6 +20,8 @@ import java.util.function.Consumer;
 public class AnimatrixAnimation implements IAnimation
 {
 
+    private final ResourceLocation name;
+
     private final IModel model;
 
     private final int             totalLengthInTicks;
@@ -26,10 +29,17 @@ public class AnimatrixAnimation implements IAnimation
 
     private final IKeyFrame[] keyFrames;
 
-    public AnimatrixAnimation(final IModel model, final int totalLengthInTicks, final IKeyFrame[] keyFrames) {
+    public AnimatrixAnimation(final ResourceLocation name, final IModel model, final int totalLengthInTicks, final IKeyFrame[] keyFrames) {
+        this.name = name;
         this.model = model;
         this.totalLengthInTicks = totalLengthInTicks;
         this.keyFrames = keyFrames;
+    }
+
+    @Override
+    public ResourceLocation getName()
+    {
+        return name;
     }
 
     /**
@@ -64,7 +74,7 @@ public class AnimatrixAnimation implements IAnimation
      * @param onAnimationCompleted Callback called when animation completes.
      */
     @Override
-    public void update(final Consumer<AnimatrixAnimation> onAnimationCompleted) {
+    public void update(final Consumer<IAnimation> onAnimationCompleted) {
         increaseAnimationTime(onAnimationCompleted);
         final Map<String, Matrix4f> currentPose = calculateCurrentAnimationPose();
         applyPoseToJoints(currentPose, model.getSkeleton().getRootJoint(), new Matrix4f());
@@ -75,7 +85,7 @@ public class AnimatrixAnimation implements IAnimation
      * progress. If the current animation has reached the end then the timer is
      * reset, causing the animation to loop.
      */
-    private void increaseAnimationTime(final Consumer<AnimatrixAnimation> onAnimationCompleted) {
+    private void increaseAnimationTime(final Consumer<IAnimation> onAnimationCompleted) {
         animationTime += 1;
         if (animationTime > getTotalLengthInTicks()) {
             onAnimationCompleted.accept(this);

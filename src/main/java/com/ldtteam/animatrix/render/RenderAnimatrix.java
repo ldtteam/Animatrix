@@ -32,6 +32,6 @@ public class RenderAnimatrix<T extends AbstractEntityAnimatrix> extends RenderLi
     public void doRender(final T entity, final double x, final double y, final double z, final float entityYaw, final float partialTicks)
     {
         bindEntityTexture(entity);
-        //TODO Render and Shaders?!?
+
     }
 }

@@ -80,13 +80,6 @@ public final class VBO
         GL15.glBufferData(type, data, GL15.GL_STATIC_DRAW);
     }
 
-    @SuppressWarnings("FinalizeDeclaration")
-    @Override
-    protected void finalize()
-    {
-        GPUManager.getInstance().markVBOForClear(this.vboId);
-    }
-
     @Override
     public String toString()
     {

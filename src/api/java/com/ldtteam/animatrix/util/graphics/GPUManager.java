@@ -1,5 +1,7 @@
 package com.ldtteam.animatrix.util.graphics;
 
+import com.google.common.collect.Lists;
+import com.ldtteam.animatrix.util.Log;
 import io.netty.util.internal.ConcurrentSet;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.fml.relauncher.Side;
@@ -7,7 +9,12 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.opengl.GL15;
 import org.lwjgl.opengl.GL30;
 
-import java.util.concurrent.atomic.AtomicBoolean;
+import java.lang.ref.WeakReference;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
+import java.util.stream.Collectors;
 
 @SideOnly(Side.CLIENT)
 public class GPUManager
@@ -19,13 +26,16 @@ public class GPUManager
         return ourInstance;
     }
 
-    private final ConcurrentSet<Integer>         clearableVbos = new ConcurrentSet<>();
-    private final ConcurrentSet<Integer>         clearableVaos = new ConcurrentSet<>();
-
-    private AtomicBoolean isScheduled;
+    private final ConcurrentMap<WeakReference<VBO>, Integer> VBOs = new ConcurrentHashMap();
+    private final ConcurrentMap<WeakReference<VAO>, Integer> VAOs = new ConcurrentHashMap();
 
     private GPUManager()
     {
+    }
+
+    public void initialize()
+    {
+        Minecraft.getMinecraft().addScheduledTask(new ClearingRunnable(this));
     }
 
     /**
@@ -34,7 +44,11 @@ public class GPUManager
      */
     public VAO createVAO() {
         final int id = GL30.glGenVertexArrays();
-        return new VAO(id);
+        final VAO vao = new VAO(id);
+
+        VAOs.put(new WeakReference<>(vao), id);
+
+        return vao;
     }
 
     /**
@@ -45,43 +59,78 @@ public class GPUManager
      */
     public VBO createVBO(final int type){
         final int id = GL15.glGenBuffers();
-        return new VBO(id, type);
+        final VBO vbo = new VBO(id, type);
+
+        VBOs.put(new WeakReference<>(vbo), id);
+
+        return vbo;
     }
 
     /**
-     * Marks the given id of a VBO as deleteable.
-     * @param vboId The id of the VBO that needs to be deleted.
+     * Clears up the GPU when VBOs and VAOs are no longer needed.
      */
-    void markVBOForClear(final int vboId)
+    private static final class ClearingRunnable implements Runnable
     {
-        clearableVbos.add(vboId);
-        scheduleClearingOnMinecraftThread();
+
+        private final GPUManager managerToHandle;
+
+        public ClearingRunnable(final GPUManager managerToHandle) {this.managerToHandle = managerToHandle;}
+
+        @Override
+        public void run()
+        {
+            final List<Map.Entry<WeakReference<VBO>, Integer>> removedVBOs =
+              managerToHandle.VBOs.entrySet().stream().filter(entry -> entry.getKey().get() == null).collect(Collectors.toList());
+            final List<Map.Entry<WeakReference<VAO>, Integer>> removedVAOs =
+              managerToHandle.VAOs.entrySet().stream().filter(entry -> entry.getKey().get() == null).collect(Collectors.toList());
+
+            removedVBOs.forEach(weakReferenceIntegerEntry -> {
+                managerToHandle.VBOs.remove(weakReferenceIntegerEntry.getKey());
+                GL15.glDeleteBuffers(weakReferenceIntegerEntry.getValue());
+            });
+
+
+            removedVAOs.forEach(weakReferenceIntegerEntry -> {
+                managerToHandle.VAOs.remove(weakReferenceIntegerEntry.getKey());
+                GL30.glDeleteVertexArrays(weakReferenceIntegerEntry.getValue());
+            });
+
+            final Thread rescheduleThread = new Thread(() -> {
+                try
+                {
+                    Thread.sleep(500);
+                }
+                catch (final InterruptedException ignored)
+                {
+                }
+
+                try
+                {
+                    Minecraft.getMinecraft().addScheduledTask(this);
+                }
+                catch (final Exception ex)
+                {
+                    Log.getLogger().error("Failed to reregister the GPUManager. GPU memory leaks will occur.", ex);
+                }
+            });
+            rescheduleThread.start();
+        }
+
+        @Override
+        public String toString()
+        {
+            return "ClearingRunnable{" +
+                     "managerToHandle=" + managerToHandle +
+                     '}';
+        }
     }
 
-    /**
-     * Marks the given id of a VAO as deleteable.
-     * @param vaoId The id of the VAO that needs to be deleted.
-     */
-    void markVAOForClear(final int vaoId)
+    @Override
+    public String toString()
     {
-        clearableVaos.add(vaoId);
-        scheduleClearingOnMinecraftThread();
-    }
-
-    /**
-     * Schedules the clearing of the VBOs and VAO from the GPU on the Minecraft thread.
-     */
-    private void scheduleClearingOnMinecraftThread()
-    {
-        if (isScheduled.get())
-            return;
-
-        isScheduled.set(true);
-
-        Minecraft.getMinecraft().addScheduledTask(() -> {
-            clearableVaos.forEach(GL30::glDeleteVertexArrays);
-            clearableVbos.forEach(GL15::glDeleteBuffers);
-            isScheduled.set(false);
-        });
+        return "GPUManager{" +
+                 "VBOs=" + VBOs +
+                 ", VAOs=" + VAOs +
+                 '}';
     }
 }

@@ -76,8 +76,6 @@ public class AnimatrixAnimation implements IAnimation
     @Override
     public void update(final Consumer<IAnimation> onAnimationCompleted) {
         increaseAnimationTime(onAnimationCompleted);
-        final Map<String, Matrix4f> currentPose = calculateCurrentAnimationPose();
-        applyPoseToJoints(currentPose, model.getSkeleton().getRootJoint(), new Matrix4f());
     }
 
     /**
@@ -112,50 +110,11 @@ public class AnimatrixAnimation implements IAnimation
      *         for all the joints. The transforms are indexed by the name ID of
      *         the joint that they should be applied to.
      */
-    private Map<String, Matrix4f> calculateCurrentAnimationPose() {
+    @Override
+    public Map<String, Matrix4f> calculateCurrentAnimationPose() {
         final IKeyFrame[] frames = getPreviousAndNextFrames();
         final float progression = calculateProgression(frames[0], frames[1]);
         return interpolatePoses(frames[0], frames[1], progression);
-    }
-
-    /**
-     * This is the method where the animator calculates and sets those all-
-     * important "joint transforms" that I talked about so much in the tutorial.
-     *
-     * This method applies the current pose to a given joint, and all of its
-     * descendants. It does this by getting the desired local-transform for the
-     * current joint, before applying it to the joint. Before applying the
-     * transformations it needs to be converted from local-space to model-space
-     * (so that they are relative to the model's origin, rather than relative to
-     * the parent joint). This can be done by multiplying the local-transform of
-     * the joint with the model-space transform of the parent joint.
-     *
-     * The same thing is then done to all the child joints.
-     *
-     * Finally the inverse of the joint's bind transform is multiplied with the
-     * model-space transform of the joint. This basically "subtracts" the
-     * joint's original bind (no animation applied) transform from the desired
-     * pose transform. The result of this is then the transform required to move
-     * the joint from its original model-space transform to it's desired
-     * model-space posed transform. This is the transform that needs to be
-     * loaded up to the vertex shader and used to transform the vertices into
-     * the current pose.
-     *
-     * @param currentPose a map of the local-space transforms for all the joints for
-     *            the desired pose. The map is indexed by the name of the joint
-     *            which the transform corresponds to.
-     * @param joint the current joint which the pose should be applied to.
-     * @param parentTransform the desired model-space transform of the parent joint for
-     *            the pose.
-     */
-    private void applyPoseToJoints(final Map<String, Matrix4f> currentPose, final IJoint joint, final Matrix4f parentTransform) {
-        final Matrix4f currentLocalTransform = currentPose.get(joint.getName());
-        final Matrix4f currentTransform = Matrix4f.mul(parentTransform, currentLocalTransform, null);
-        for (final IJoint childJoint : joint.getChildJoints()) {
-            applyPoseToJoints(currentPose, childJoint, currentTransform);
-        }
-        Matrix4f.mul(currentTransform, joint.getInverseModelSpaceBindTransform(), currentTransform);
-        joint.setAnimationModelSpaceTransform(currentTransform);
     }
 
     /**

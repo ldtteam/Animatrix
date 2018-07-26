@@ -123,13 +123,6 @@ public class VAO
         GL30.glBindVertexArray(0);
     }
 
-    @SuppressWarnings("FinalizeDeclaration")
-    @Override
-    protected void finalize()
-    {
-        GPUManager.getInstance().markVAOForClear(this.id);
-    }
-
     @Override
     public String toString()
     {

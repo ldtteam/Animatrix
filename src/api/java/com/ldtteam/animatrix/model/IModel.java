@@ -1,5 +1,6 @@
 package com.ldtteam.animatrix.model;
 
+import com.ldtteam.animatrix.model.animator.IAnimator;
 import com.ldtteam.animatrix.model.skeleton.ISkeleton;
 import com.ldtteam.animatrix.model.skin.ISkin;
 
@@ -21,4 +22,11 @@ public interface IModel
      * @return The skin.
      */
     ISkin getSkin();
+
+    /**
+     * The animator for the model.
+     *
+     * @return The animator.
+     */
+    IAnimator getAnimator();
 }

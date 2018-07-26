@@ -13,12 +13,12 @@ import java.util.function.Consumer;
 @SideOnly(Side.CLIENT)
 public class AnimatrixAnimatorAnimationInformation implements IAnimatorAnimationInformation
 {
-    private Double remainingCount;
     private final IAnimation animation;
+    private Double remainingCount;
 
-    public AnimatrixAnimatorAnimationInformation(final Double remainingCount, final IAnimation animation) {
-        this.remainingCount = remainingCount;
+    public AnimatrixAnimatorAnimationInformation( final IAnimation animation, final Double remainingCount) {
         this.animation = animation;
+        this.remainingCount = remainingCount;
     }
 
     /**

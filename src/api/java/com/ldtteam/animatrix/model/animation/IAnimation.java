@@ -1,7 +1,9 @@
 package com.ldtteam.animatrix.model.animation;
 
 import net.minecraft.util.ResourceLocation;
+import org.lwjgl.util.vector.Matrix4f;
 
+import java.util.Map;
 import java.util.function.Consumer;
 
 public interface IAnimation
@@ -38,4 +40,25 @@ public interface IAnimation
      * @param onAnimationCompleted Callback called when animation completes.
      */
     void update(Consumer<IAnimation> onAnimationCompleted);
+
+    /**
+     * This method returns the current animation pose of the entity. It returns
+     * the desired local-space transforms for all the joints in a map, indexed
+     * by the name of the joint that they correspond to.
+     *
+     * The pose is calculated based on the previous and next keyframes in the
+     * current animation. Each keyframe provides the desired pose at a certain
+     * time in the animation, so the animated pose for the current time can be
+     * calculated by interpolating between the previous and next keyframe.
+     *
+     * This method first finds the preious and next keyframe, calculates how far
+     * between the two the current animation is, and then calculated the pose
+     * for the current animation time by interpolating between the transforms at
+     * those keyframes.
+     *
+     * @return The current pose as a map of the desired local-space transforms
+     *         for all the joints. The transforms are indexed by the name ID of
+     *         the joint that they should be applied to.
+     */
+    Map<String, Matrix4f> calculateCurrentAnimationPose();
 }

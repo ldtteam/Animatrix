@@ -1,6 +1,6 @@
 package com.ldtteam.animatrix.model.skin;
 
-import com.ldtteam.animatrix.util.graphics.VAO;
+import com.ldtteam.graphicsexpanded.graphics.VAO;
 import net.minecraft.util.ResourceLocation;
 
 public interface ISkin

@@ -90,7 +90,7 @@ dependencies {
     compile 'com.intellij:annotations:+@jar'
 }
 
-group = "com.animatrix"
+group = "com.ldtteam.animatrix"
 version = config.minecraft_version.toString() + "-" + System.getenv()["Version"]
 archivesBaseName = "animatrix"
 

@@ -16,6 +16,7 @@ buildscript {
 plugins {
     id "com.matthewprenger.cursegradle" version "1.0.9"
 }
+
 repositories {
     maven {
         name 'DVS1 Maven FS'
@@ -28,6 +29,11 @@ repositories {
     }
     maven {
         url 'http://dogforce-games.com/maven'
+    }
+    ivy {
+        name 'Minecolonies TeamCity Repo'
+        ivyPattern 'https://teamcity.minecolonies.com/guestAuth/repository/download/[module]/[revision]/teamcity-ivy.xml'
+        artifactPattern 'https://teamcity.minecolonies.com/guestAuth/repository/download/[module]/[revision]/[artifact](.[ext])'
     }
 }
 
@@ -77,6 +83,13 @@ configFile.withReader {
 }
 
 dependencies {
+    deobfCompile ( 'org:' + config.ge_build_type + ':' + config.ge_build_number ){
+        artifact {
+            name = 'graphicsexpanded-' + config.minecraft_version +'-' + config.ge_artifact_version + '-' + config.ge_artifact_type
+            type = 'jar'
+        }
+    }
+
     testCompile 'junit:junit:4.11'
     testCompile "org.mockito:mockito-core:1.+"
     testCompile group: 'org.powermock', name: 'powermock-module-junit4', version: '1.6.5'

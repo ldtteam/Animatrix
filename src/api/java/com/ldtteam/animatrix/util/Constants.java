@@ -32,6 +32,19 @@ public final class Constants
         {
             public static final ResourceLocation ANIMATRIX_DEFAULT = new ResourceLocation(General.MOD_ID, "shaders/animatrixVertex.glsl");
         }
+
+        public static final class Variables
+        {
+            public static final String CONST_POSITION = "in_position";
+            public static final String CONST_TEXTURE_COORDS = "in_textureCoords";
+            public static final String CONST_JOINT_INDICES = "in_jointIndices";
+            public static final String CONST_WEIGHTS = "in_weights";
+        }
+
+        public static final class ArraySizes
+        {
+            public static final Integer CONST_MAX_JOINT_COUNT = 50;
+        }
     }
 
 }

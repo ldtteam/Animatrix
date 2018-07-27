@@ -1,6 +1,5 @@
 package com.ldtteam.animatrix.util;
 
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import org.apache.logging.log4j.Logger;
 
 /**
@@ -24,7 +23,6 @@ public class Log
 
     /**
      * Sets the animatrix logger.
-     * Called by {@link Animatrix#preInit(FMLPreInitializationEvent)}
      *
      * @param logger The logger to set.
      */

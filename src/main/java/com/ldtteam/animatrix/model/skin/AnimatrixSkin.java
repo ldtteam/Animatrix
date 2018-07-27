@@ -1,7 +1,7 @@
 package com.ldtteam.animatrix.model.skin;
 
 import com.ldtteam.animatrix.model.AnimatrixModel;
-import com.ldtteam.graphicsexpanded.graphics.VAO;
+import com.ldtteam.graphicsexpanded.gpu.VAO;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -12,7 +12,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class AnimatrixSkin implements ISkin
 {
-    private final VAO skinModel;
+    private final VAO              skinModel;
     private final ResourceLocation texture;
 
     public AnimatrixSkin(final VAO skinModel, final ResourceLocation texture) {

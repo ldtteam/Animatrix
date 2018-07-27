@@ -203,8 +203,10 @@ curseforge {
             changelogType = 'markdown'
             releaseType = System.getenv().CURSERELEASETYPE
 
-            addArtifact deobfJar
             addArtifact apiJar
+            relations {
+                requiredLibrary 'graphicsexpanded' // SmithScore is required
+            }
         }
     }
     else

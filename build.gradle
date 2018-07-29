@@ -205,7 +205,7 @@ curseforge {
 
             addArtifact apiJar
             relations {
-                requiredLibrary 'graphicsexpanded' // SmithScore is required
+                requiredLibrary 'graphicsexpanded' // graphicsexpanded is required
             }
         }
     }

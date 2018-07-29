@@ -43,6 +43,7 @@ public final class Constants
 
         public static final class ArraySizes
         {
+            public static final Integer CONST_MAX_WEIGHTS_PER_VERTEX = 3;
             public static final Integer CONST_MAX_JOINT_COUNT = 50;
         }
     }

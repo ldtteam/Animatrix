@@ -30,7 +30,7 @@ public class AnimatrixJoint implements IJoint
      * @param jointSpaceBindTransform The matrix that defines the position and orientation of the joint compared to its parent.
      * @param childJoints The joints that this joint is a parent of.
      */
-    public AnimatrixJoint(final int index, final String name, final Matrix4f jointSpaceBindTransform, final Collection<AnimatrixJoint> childJoints) {
+    public AnimatrixJoint(final int index, final String name, final Matrix4f jointSpaceBindTransform, final Collection<IJoint> childJoints) {
         this.index = index;
         this.name = name;
         this.jointSpaceBindTransform = jointSpaceBindTransform;

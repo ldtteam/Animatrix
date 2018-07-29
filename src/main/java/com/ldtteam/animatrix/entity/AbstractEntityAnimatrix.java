@@ -6,21 +6,13 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public abstract class AbstractEntityAnimatrix extends EntityLiving
+public abstract class AbstractEntityAnimatrix extends EntityLiving implements IEntityAnimatrix
 {
 
     public AbstractEntityAnimatrix(final World worldIn)
     {
         super(worldIn);
     }
-
-    /**
-     * Returns the model for this entity.
-     *
-     * @return The model for the entity.
-     */
-    @SideOnly(Side.CLIENT)
-    public abstract IModel getAnimatrixModel();
 
     /**
      * Gets called every tick from main Entity class

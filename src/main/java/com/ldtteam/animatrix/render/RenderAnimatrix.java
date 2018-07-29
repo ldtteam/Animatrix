@@ -2,15 +2,17 @@ package com.ldtteam.animatrix.render;
 
 import com.ldtteam.animatrix.ModAnimatrix;
 import com.ldtteam.animatrix.entity.AbstractEntityAnimatrix;
+import com.ldtteam.animatrix.entity.IEntityAnimatrix;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.entity.EntityLiving;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
 import javax.annotation.Nullable;
 
-public class RenderAnimatrix<T extends AbstractEntityAnimatrix> extends RenderLiving<T>
+public class RenderAnimatrix<T extends EntityLiving & IEntityAnimatrix> extends RenderLiving<T>
 {
     public RenderAnimatrix(final RenderManager rendermanagerIn, final ModelBase modelbaseIn, final float shadowsizeIn)
     {

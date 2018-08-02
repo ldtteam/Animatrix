@@ -58,6 +58,16 @@ public interface IJoint
     ImmutableCollection<IJoint> getChildJoints();
 
     /**
+     * Returns the max joint index..
+     *
+     * @return The max joint index.
+     */
+    default int getMaxJointIndex()
+    {
+        return Math.max(getChildJoints().stream().mapToInt(IJoint::getMaxJointIndex).max().orElse(0), getIndex());
+    }
+
+    /**
      * Updates the inverseModelSpaceBindTransform form the given matrix.
      *
      * @param parentModelSpaceBindTransform The parent modelspace bind transform matrix.

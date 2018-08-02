@@ -26,20 +26,6 @@ public class AnimatrixAnimator implements IAnimator
 
     public AnimatrixAnimator(final IModel model) {this.model = model;}
 
-
-    /**
-     * Starts a new animation that runs an infinite amount of times with the given priority.
-     * Lower priority means more influence on the model.
-     *
-     * @param animation The animation to start.
-     * @param priority The priority. Lower means more influence.
-     */
-    @Override
-    public void startAnimation(@NotNull final IAnimation animation, final int priority)
-    {
-        startAnimation(animation, priority, Double.POSITIVE_INFINITY);
-    }
-
     /**
      * Starts a new animation that runs the given amount of times, with the given priority.
      * Lower priority means more influence on the model.

@@ -73,6 +73,16 @@ sourceSets {
             srcDir 'src/test/resources'
         }
     }
+    testmod {
+        compileClasspath += main.compileClasspath + main.output
+
+        java {
+            srcDir 'src/testmod/java'
+        }
+        resources {
+            srcDir 'src/testmod/resources'
+        }
+    }
 }
 
 ext.configFile = file "build.properties"
@@ -80,6 +90,10 @@ configFile.withReader {
     def prop = new Properties()
     prop.load(it)
     ext.config = new ConfigSlurper().parse prop
+}
+
+configurations {
+    testmodRuntime.extendsFrom(forgeGradleGradleStart)
 }
 
 dependencies {
@@ -172,6 +186,8 @@ idea {
     module {
         inheritOutputDirs = true
     }
+    module.downloadJavadoc = true
+    module.downloadSources = true
 }
 
 task signJar(type: SignJar, dependsOn: reobfJar) {

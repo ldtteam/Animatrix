@@ -17,6 +17,8 @@ import org.lwjgl.util.vector.Vector3f;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 @SideOnly(Side.CLIENT)
 public class AnimationLoaderManager implements IAnimationLoaderManager
@@ -27,10 +29,10 @@ public class AnimationLoaderManager implements IAnimationLoaderManager
     public IAnimation loadAnimation(final IModel model, final ResourceLocation location) throws AnimationLoadingException
     {
        final AnimationData data = loaders.stream().filter(loader -> loader.canLoadAnimation(location)).findFirst().orElseThrow(() -> new IllegalArgumentException("Not supported animation file: " + location)).loadAnimation(location);
-       final Integer lengthInTicks = (int) data.getLengthSeconds() * 20;
-       final IKeyFrame[] keyFrames = (IKeyFrame[]) Arrays.stream(data.getKeyFrames()).map(AnimationLoaderManager::createKeyFrame).toArray();
+       final Integer lengthInTicks = (int) (data.getLengthSeconds() * 20);
+       final IKeyFrame[] keyFrames = Arrays.stream(data.getKeyFrames()).map(AnimationLoaderManager::createKeyFrame).toArray(IKeyFrame[]::new);
 
-        return new AnimatrixAnimation(location, model, lengthInTicks, keyFrames);
+       return new AnimatrixAnimation(location, model, lengthInTicks, keyFrames);
     }
 
     /**

@@ -1,6 +1,7 @@
 package com.ldtteam.animatrix.model.skeleton;
 
 import com.ldtteam.animatrix.model.AnimatrixModel;
+import com.ldtteam.animatrix.util.array.ArrayUtility;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.util.vector.Matrix4f;
@@ -19,7 +20,7 @@ public class AnimatrixSkeleton implements ISkeleton
 
     public AnimatrixSkeleton(final IJoint rootJoint) {
         this.rootJoint = rootJoint;
-        this.jointCount = (int) (this.rootJoint.getChildJoints().stream().flatMap(joint -> joint.getChildJoints().stream()).count() + 1);
+        this.jointCount = rootJoint.getMaxJointIndex() + 1;
     }
 
     /**
@@ -54,6 +55,8 @@ public class AnimatrixSkeleton implements ISkeleton
     @Override
     public Matrix4f[] getAnimationModelSpaceTransformsFromJoints() {
         final Matrix4f[] jointMatrices = new Matrix4f[jointCount];
+        ArrayUtility.InitializeArray(jointMatrices, Matrix4f::new);
+
         addJointsToArray(rootJoint, jointMatrices);
         return jointMatrices;
     }

@@ -30,7 +30,12 @@ public final class Constants
     {
         public static final class Vertex
         {
-            public static final ResourceLocation ANIMATRIX_DEFAULT = new ResourceLocation(General.MOD_ID, "shaders/animatrixVertex.glsl");
+            public static final ResourceLocation ANIMATRIX_DEFAULT = new ResourceLocation(General.MOD_ID, "shaders/animatrix_vertex.glsl");
+        }
+
+        public static final class Fragment
+        {
+            public static final ResourceLocation ANIMATRIX_DEFAULT = new ResourceLocation(General.MOD_ID, "shaders/animatrix_fragment.glsl");
         }
 
         public static final class Variables

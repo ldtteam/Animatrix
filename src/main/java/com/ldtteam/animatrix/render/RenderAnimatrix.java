@@ -1,9 +1,10 @@
 package com.ldtteam.animatrix.render;
 
 import com.ldtteam.animatrix.ModAnimatrix;
-import com.ldtteam.animatrix.entity.AbstractEntityAnimatrix;
 import com.ldtteam.animatrix.entity.IEntityAnimatrix;
 import net.minecraft.client.model.ModelBase;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.EntityLiving;
@@ -35,12 +36,30 @@ public class RenderAnimatrix<T extends EntityLiving & IEntityAnimatrix> extends 
     @Override
     public void doRender(final T entity, final double x, final double y, final double z, final float entityYaw, final float partialTicks)
     {
+        if (entity.getAnimatrixModel() == null)
+            return;
+
+        GlStateManager.pushMatrix();
+        GlStateManager.disableCull();
+        GlStateManager.disableLighting();
         bindEntityTexture(entity);
+
+        GlStateManager.translate((float)x, (float)y + 2, (float)z);
+        GlStateManager.scale(1 / 4f, 1 / 4f, 1 / 4f);
+
         ModAnimatrix.getInstance().getShader().start();
+
         entity.getAnimatrixModel().getSkin().getSkinModel().bind(0,1,2,3);
+
         ModAnimatrix.getInstance().getShader().getJointTransforms().loadMatrixArray(entity.getAnimatrixModel().getSkeleton().getAnimationModelSpaceTransformsFromJoints());
+        ModAnimatrix.getInstance().getShader().getTextureSampler().loadTexUnit(OpenGlHelper.defaultTexUnit);
+
         GL11.glDrawElements(GL11.GL_TRIANGLES, entity.getAnimatrixModel().getSkin().getSkinModel().getIndexCount(), GL11.GL_UNSIGNED_INT, 0);
+
         entity.getAnimatrixModel().getSkin().getSkinModel().unbind(0,1,2,3);
+
         ModAnimatrix.getInstance().getShader().stop();
+        GlStateManager.enableCull();
+        GlStateManager.popMatrix();
     }
 }

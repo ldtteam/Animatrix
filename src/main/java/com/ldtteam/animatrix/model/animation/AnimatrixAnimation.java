@@ -3,7 +3,10 @@ package com.ldtteam.animatrix.model.animation;
 import com.ldtteam.animatrix.model.IModel;
 import com.ldtteam.animatrix.model.skeleton.IJoint;
 import com.ldtteam.animatrix.util.animation.IJointTransformMath;
+import net.minecraft.client.Minecraft;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.util.vector.Matrix4f;
@@ -34,6 +37,7 @@ public class AnimatrixAnimation implements IAnimation
         this.model = model;
         this.totalLengthInTicks = totalLengthInTicks;
         this.keyFrames = keyFrames;
+        this.animationTime = 0;
     }
 
     @Override
@@ -85,7 +89,7 @@ public class AnimatrixAnimation implements IAnimation
      */
     private void increaseAnimationTime(final Consumer<IAnimation> onAnimationCompleted) {
         animationTime += 1;
-        if (animationTime > getTotalLengthInTicks()) {
+        if (animationTime >= getTotalLengthInTicks()) {
             onAnimationCompleted.accept(this);
             this.animationTime %= getTotalLengthInTicks();
         }
@@ -152,8 +156,13 @@ public class AnimatrixAnimation implements IAnimation
      */
     private float calculateProgression(final IKeyFrame previousFrame, final IKeyFrame nextFrame) {
         final float totalTime = nextFrame.getTicksAfterStart() - previousFrame.getTicksAfterStart();
-        final float currentTime = animationTime - previousFrame.getTicksAfterStart();
+        final float currentTime = (animationTime + Minecraft.getMinecraft().getRenderPartialTicks()) - previousFrame.getTicksAfterStart();
         return currentTime / totalTime;
+    }
+
+    @SubscribeEvent
+    public void onTickRenderTick(final TickEvent.RenderTickEvent event)
+    {
     }
 
     /**

@@ -21,6 +21,7 @@ public class AnimatrixSkeleton implements ISkeleton
     public AnimatrixSkeleton(final IJoint rootJoint) {
         this.rootJoint = rootJoint;
         this.jointCount = rootJoint.getMaxJointIndex() + 1;
+        this.rootJoint.calculateIMSBT(new Matrix4f());
     }
 
     /**
@@ -71,7 +72,10 @@ public class AnimatrixSkeleton implements ISkeleton
      * @param jointMatrices the array of joint transforms that is being filled.
      */
     private void addJointsToArray(final IJoint headJoint, final Matrix4f[] jointMatrices) {
-        jointMatrices[headJoint.getIndex()] = headJoint.getAnimationModelSpaceTransform();
+        if (headJoint .getIndex() != -1)
+        {
+            jointMatrices[headJoint.getIndex()] = headJoint.getAnimationModelSpaceTransform();
+        }
         headJoint.getChildJoints().forEach(childJoint -> addJointsToArray(childJoint, jointMatrices));
     }
 

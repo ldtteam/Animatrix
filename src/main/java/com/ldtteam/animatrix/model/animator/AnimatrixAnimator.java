@@ -127,7 +127,14 @@ public class AnimatrixAnimator implements IAnimator
         for (final IJoint childJoint : joint.getChildJoints()) {
             applyPoseToJoints(currentPose, childJoint, currentTransform);
         }
-        Matrix4f.mul(currentTransform, joint.getInverseModelSpaceBindTransform(), currentTransform);
+
+        final Matrix4f jointInverse;
+        if (runningAnimations.isEmpty())
+            jointInverse = new Matrix4f();
+        else
+            jointInverse = joint.getInverseModelSpaceBindTransform();
+
+        Matrix4f.mul(currentTransform, jointInverse, currentTransform);
         joint.setAnimationModelSpaceTransform(currentTransform);
     }
 

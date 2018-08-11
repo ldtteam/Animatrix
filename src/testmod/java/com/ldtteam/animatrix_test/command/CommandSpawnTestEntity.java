@@ -39,7 +39,14 @@ public class CommandSpawnTestEntity extends CommandBase
             return;
         }
 
-        //  /at_test animatrix_test:models/entities/steve.dae minecraft:textures/entity/alex.png animatrix_test:animations/entities/steve_walking.dae
+        //  /at_test animatrix_test:models/entities/model.dae animatrix_test:textures/entities/diffuse.png
+        //  /at_test animatrix_test:models/entities/model.dae animatrix_test:textures/entities/diffuse.png animatrix_test:animations/entities/model.dae
+
+        //  /at_test animatrix_test:models/entities/steve.dae minecraft:textures/entity/alex.png
+        //  /at_test animatrix_test:models/entities/steve.dae minecraft:textures/entity/alex.png animatrix_test:animations/entities/steve.dae
+
+        //  /at_test animatrix_test:models/entities/fr_biped.dae minecraft:textures/entity/alex.png
+        //  /at_test animatrix_test:models/entities/fr_biped.dae minecraft:textures/entity/alex.png animatrix_test:animations/entities/fr_biped.dae
         Minecraft.getMinecraft().addScheduledTask(() -> {
             final AnimatrixTestEntity entity = (AnimatrixTestEntity) EntityList.createEntityByIDFromName(new ResourceLocation("animatrix_test:test"), Minecraft.getMinecraft().world);
 

@@ -44,8 +44,9 @@ public class RenderAnimatrix<T extends EntityLiving & IEntityAnimatrix> extends 
         GlStateManager.disableLighting();
         bindEntityTexture(entity);
 
-        GlStateManager.translate((float)x, (float)y + 2, (float)z);
-        GlStateManager.scale(1 / 4f, 1 / 4f, 1 / 4f);
+        GlStateManager.translate((float)x, (float)y, (float)z);
+        //GlStateManager.rotate(90, 1f, 0, 0);
+        //GlStateManager.scale(1/16f, 1/16f, 1/16f);
 
         ModAnimatrix.getInstance().getShader().start();
 

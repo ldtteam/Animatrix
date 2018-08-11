@@ -22,10 +22,12 @@ public class ClientTickEventHandler
         Minecraft.getMinecraft()
           .world
           .getEntities(Entity.class, IEntityAnimatrix.class::isInstance)
-          .forEach(e -> ((IEntityAnimatrix)e)
-                          .getAnimatrixModel()
-                          .getAnimator()
-                          .onUpdate()
+          .forEach(e -> {
+              ((IEntityAnimatrix)e)
+                  .getAnimatrixModel()
+                  .getAnimator()
+                  .onUpdate();
+            }
           );
     }
 }

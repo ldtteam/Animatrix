@@ -221,6 +221,8 @@ task("createChangelog") {
             buildDir.mkdirs()
         file.createNewFile()
 
+        println("Target file: " + file.getAbsolutePath())
+
         def fileOutputStream = new FileOutputStream("./build/changelog.md")
         def out = new BufferedOutputStream(fileOutputStream)
         def changesXML = new XmlSlurper().parse(teamCityURL + "guestAuth/app/rest/changes?locator=build:(id:" + teamcity["teamcity.build.id"] + ")")

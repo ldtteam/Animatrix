@@ -1,14 +1,16 @@
 ### About the mod ###
 
-   **Animatrix** is a mod for the famous game *Minecraft* from Mojang. This Mod allows the player to save structures with a scan tool, manipulate regions with functions as remove, replace and delete entities.
-   As well as paste these structures in the world. Additionally this mod adds a bunch of decorative blocks as shingles, timberframes and paperwalls.
+   **Animatrix** is a mod for the famous game *Minecraft* from Mojang. This mod allows the use of Skeleton based rendering and animations for Entities.
+   It allows modder to use custom and beautifull animations and models created outside of the usual Minecraft programming paradigms, like with forexample Blender,
+   and export those models and Animations to Collada, for use inside the Minecraft game engine.
    
 ##### Website:
-https://www.Animatrix.com/
+https://www.github.com/ldtteam/animatrix
 
 
 For Users
 --
+This mod is more for modders then for actuall users.
 
 
 Compiling Animatrix
@@ -37,7 +39,7 @@ The Java JDK is used to compile Animatrix
 3. Open up your command line and run `javac`.  If it spews out a bunch of possible options and the usage, then you're good to go.  If not, either try the steps again.
 
 #### Setup Gradle (Optional)
-Gradle is used to execute the various build tasks when compiling CopyPaste
+Gradle is used to execute the various build tasks when compiling Animatrix
 
 1. Download and install Gradle.
 	* [Windows/Mac download link](http://www.gradle.org/downloads).  You only need the binaries, but choose whatever flavor you want.
@@ -55,32 +57,32 @@ Gradle is used to execute the various build tasks when compiling CopyPaste
 3. Open up your command line and run `gradle`.  If it says "Welcome to Gradle [version].", then you're good to go.  If not, either try the steps again.
 
 #### Setup Git
-Git is used to clone CopyPaste and update your local copy.
+Git is used to clone Animatrix and update your local copy.
 
 1. Download and install Git [here](http://git-scm.com/download/).
 2. *Optional*: Download and install a Git GUI client, such as SourceTree, Github for Windows/Mac, SmartGitHg, TortoiseGit, etc.  A nice list is available [here](http://git-scm.com/downloads/guis).
 
-#### Setup CopyPaste
+#### Setup Animatrix
 This section assumes that you're using the command-line version of Git.
 
 1. Open up your command line.
-2. Navigate to a place where you want to download CopyPaste source (eg `C:\Github\CopyPaste\`) by executing `cd [folder location]`.  This location is known as `basefolder` from now on.
-3. Execute `git clone https://github.com/CopyPaste/CopyPaste.git`.  This will download CopyPaste' source into `basefolder`.
+2. Navigate to a place where you want to download Animatrix source (eg `C:\Github\Animatrix\`) by executing `cd [folder location]`.  This location is known as `basefolder` from now on.
+3. Execute `git clone https://github.com/Animatrix/Animatrix.git`.  This will download Animatrix' source into `basefolder`.
 4. Right now, you should have a directory that looks something like:
 
 ***
     basefolder
-	\-CopyPaste
-		\-CopyPaste' files (should have `build.gradle`)
+	\-Animatrix
+		\-Animatrix' files (should have `build.gradle`)
 ***
 
-#### Compile CopyPaste
-1. Execute `gradlew setupDecompWorkspace`. This sets up Forge and downloads the necessary libraries to build CopyPaste.  This might take some time, be patient.
+#### Compile Animatrix
+1. Execute `gradlew setupDecompWorkspace`. This sets up Forge and downloads the necessary libraries to build Animatrix.  This might take some time, be patient.
     * You will generally only have to do this once until the Forge version in `build.properties` changes.
 2. Execute `gradlew build`. If you did everything right, `BUILD SUCCESSFUL` will be displayed after it finishes.  This should be relatively quick.
     * If you see `BUILD FAILED`, check the error output (it should be right around `BUILD FAILED`), fix everything (if possible), and try again.
-3. Go to `basefolder\CopyPaste\build\libs`.
-    *  You should see a `.jar` file named `CopyPaste-universal--0.0.#.jar`, where # is the `build_number` value in `build.properties`.
+3. Go to `basefolder\Animatrix\build\libs`.
+    *  You should see a `.jar` file named `Animatrix-universal--0.0.#.jar`, where # is the `build_number` value in `build.properties`.
 4. Copy the jar into your Minecraft mods folder, and you are done! (~/.minecraft/mods on Linux)
 5. Alternatively, you can also run `./gradlew runClient` to start Minecraft with this jar.
 
@@ -107,10 +109,10 @@ So you found a bug in our code?  Think you can make it more efficient?  Want to 
 6. Click `Create pull request`, and wait for feedback!
 
 #### Creating an Issue
-CopyPaste crashes every time?  Have a suggestion?  Found a bug?  Create an issue now!
+Animatrix crashes every time?  Have a suggestion?  Found a bug?  Create an issue now!
 
 1. Make sure your issue hasn't already been answered or fixed.  Also think about whether your issue is a valid one before submitting it.
-2. Go to [the issues page](https://github.com/CopyPaste/CopyPaste/issues).
+2. Go to [the issues page](https://github.com/Animatrix/Animatrix/issues).
 3. Click `New Issue`
 4. Fill in the form:
     * `Title`: Short summary of your issue
@@ -120,7 +122,6 @@ CopyPaste crashes every time?  Have a suggestion?  Found a bug?  Create an issue
     
 5. Click `Submit New Issue`, and wait for feedback!
 
-~~NOTE: A video explaining how to is [here](http://youtu.be/2SscjHmLvss).~~
 
 For Developers
 --
@@ -128,5 +129,5 @@ For Developers
 PR's (pull requests) are required to get code onto the develop and master branches.
 
 To do this, the easiest way is to download [sourcetree](http://www.sourcetreeapp.com/) or [gitkraken](https://www.gitkraken.com/). Install it, and add a repository (either clone, or select working directory)
-Then, click on branch, and create a new one. You can push to your own branch! Make sure your branch is selected, before you push! [Example](http://gyazo.com/4b453a55a8baf59f573bb1c4636a5ca2) So it should be big black. Once you are satisfied, go to [github](https://github.com/CopyPaste/CopyPaste/compare), and create a pull request.
+Then, click on branch, and create a new one. You can push to your own branch! Make sure your branch is selected, before you push! [Example](http://gyazo.com/4b453a55a8baf59f573bb1c4636a5ca2) So it should be big black. Once you are satisfied, go to [github](https://github.com/Animatrix/Animatrix/compare), and create a pull request.
 

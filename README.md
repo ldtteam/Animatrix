@@ -1,35 +1,23 @@
-[![CLA assistant](https://cla-assistant.io/readme/badge/copy_paste/copy_paste)](https://cla-assistant.io/copy_paste/copy_paste)
-[![Build Status](https://teamcity.copy_paste.com/app/rest/builds/buildType:copy_paste_Alpha/statusIcon)](http://teamcity.copy_paste.com/)
-[![Quality Gate](https://sonar.copy_paste.com/api/badges/gate?key=copy_paste%3Aversion%2F1.11&blinking=true)](https://sonar.copy_paste.com/overview?id=copy_paste%3Aversion%2F1.11)
-[![Comment Lines](https://sonar.copy_paste.com/api/badges/measure?key=copy_paste%3Aversion%2F1.11&blinking=true&metric=comment_lines_density)](https://sonar.copy_paste.com/overview?id=copy_paste%3Aversion%2F1.11)
-[![Lines of Code](https://sonar.copy_paste.com/api/badges/measure?key=copy_paste%3Aversion%2F1.11&blinking=true&metric=ncloc)](https://sonar.copy_paste.com/overview?id=copy_paste%3Aversion%2F1.11)
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/3f8479027286436bbb6add73d309e054)](https://www.codacy.com/app/copy_paste/copy_paste?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=copy_paste/copy_paste&amp;utm_campaign=Badge_Grade)
-[![Stories in Ready](https://badge.waffle.io/copy_paste/copy_paste.png?label=help%20wanted&title=Help%20Wanted)](http://waffle.io/copy_paste/copy_paste)
-
-
-
-![alt tag](resources/copy_paste.png)
-
 ### About the mod ###
 
-   **copy_paste** is a mod for the famous game *Minecraft* from Mojang. This Mod allows the player to save structures with a scan tool, manipulate regions with functions as remove, replace and delete entities.
+   **Animatrix** is a mod for the famous game *Minecraft* from Mojang. This Mod allows the player to save structures with a scan tool, manipulate regions with functions as remove, replace and delete entities.
    As well as paste these structures in the world. Additionally this mod adds a bunch of decorative blocks as shingles, timberframes and paperwalls.
    
 ##### Website:
-https://www.copy_paste.com/
+https://www.Animatrix.com/
 
 
 For Users
 --
 
 
-Compiling copy_paste
+Compiling Animatrix
 ----
 
 IMPORTANT: Please report any issues you have, there might be some problems with the documentation! Also make sure you know EXACTLY what you're doing! It's not any of our faults if your OS crashes, becomes corrupted, etc.
 
 #### Setup Java
-The Java JDK is used to compile copy_paste
+The Java JDK is used to compile Animatrix
 
 1. Download and install the Java JDK 8.
     * [Windows/Mac download link](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html).  Scroll down, accept the `Oracle Binary Code License Agreement for Java SE`, and download it (if you have a 64-bit OS, please download the 64-bit version).

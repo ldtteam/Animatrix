@@ -19,21 +19,8 @@ plugins {
 
 repositories {
     maven {
-        name 'DVS1 Maven FS'
-        url 'http://dvs1.progwml6.com/files/maven'
-    }
-    maven {
-        // location of a maven mirror for JEI files, as a fallback
-        name = "ModMaven"
-        url = "modmaven.k-4u.nl"
-    }
-    maven {
-        url 'http://dogforce-games.com/maven'
-    }
-    ivy {
-        name 'Minecolonies TeamCity Repo'
-        ivyPattern 'https://teamcity.minecolonies.com/guestAuth/repository/download/[module]/[revision]/teamcity-ivy.xml'
-        artifactPattern 'https://teamcity.minecolonies.com/guestAuth/repository/download/[module]/[revision]/[artifact](.[ext])'
+        name 'LDTTeam Artifactory'
+        url 'https://ldtteam.jfrog.io/ldtteam/modding'
     }
 }
 
@@ -97,12 +84,7 @@ configurations {
 }
 
 dependencies {
-    deobfCompile ( 'org:' + config.ge_build_type + ':' + config.ge_build_number ){
-        artifact {
-            name = 'graphicsexpanded-' + config.minecraft_version +'-' + config.ge_artifact_version + '-' + config.ge_artifact_type
-            type = 'jar'
-        }
-    }
+    deobfCompile('com.ldtteam.graphicsexpanded:graphicsexpanded:1.12.2-0.1.+')
 
     testCompile 'junit:junit:4.11'
     testCompile "org.mockito:mockito-core:1.+"
@@ -160,12 +142,8 @@ task apiJar(type: Jar) {
 jar {
     from sourceSets.api.output
     from sourceSets.main.output
-    
-    classifier = 'universal'
 
-    manifest {
-        attributes 'FMLAT': "animatrix_at.cfg"
-    }
+    classifier = 'universal'
 }
 
 task reobfApiJar(type: TaskSingleReobf) {

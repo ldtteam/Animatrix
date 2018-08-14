@@ -215,13 +215,13 @@ task("createChangelog") {
     doLast {
         def teamCityURL = "https://teamcity.minecolonies.com/"
 
-        def file = new File("build/changelog.md")
+        def file = new File("./build/changelog.md")
         def buildDir = file.getParentFile()
         if (!buildDir.exists())
             buildDir.mkdirs()
         file.createNewFile()
 
-        def fileOutputStream = new FileOutputStream("build/changelog.md")
+        def fileOutputStream = new FileOutputStream("./build/changelog.md")
         def out = new BufferedOutputStream(fileOutputStream)
         def changesXML = new XmlSlurper().parse(teamCityURL + "guestAuth/app/rest/changes?locator=build:(id:" + teamcity["teamcity.build.id"] + ")")
 

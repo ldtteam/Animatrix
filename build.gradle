@@ -191,7 +191,7 @@ curseforge {
         apiKey = System.getenv().CURSEAPIKEY
 
         project {
-            id = '000000'
+            id = '300776'
 
             changelog = file('build/changelog.md')
             changelogType = 'markdown'

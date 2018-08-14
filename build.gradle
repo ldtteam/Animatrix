@@ -215,7 +215,7 @@ task("createChangelog") {
     doLast {
         def teamCityURL = "https://teamcity.minecolonies.com/"
 
-        def file = new File("./build/changelog.md")
+        def file = project.file("build/changelog.md")  // new File("./build/changelog.md")
         def buildDir = file.getParentFile()
         if (!buildDir.exists())
             buildDir.mkdirs()

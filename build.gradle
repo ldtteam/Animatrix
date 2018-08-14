@@ -218,7 +218,7 @@ task("createChangelog") {
         def file = new File("build/changelog.md")
         def buildDir = file.getParentFile()
         if (!buildDir.exists())
-            buildDir.createNewFile()
+            buildDir.mkdirs()
         file.createNewFile()
 
         def fileOutputStream = new FileOutputStream("build/changelog.md")

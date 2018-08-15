@@ -139,6 +139,12 @@ task apiJar(type: Jar) {
     classifier 'api'
 }
 
+task testModJar(type: Jar) {
+    from sourceSets.testmod.output
+
+    classifier 'testmod'
+}
+
 jar {
     from sourceSets.api.output
     from sourceSets.main.output
@@ -154,6 +160,12 @@ task reobfApiJar(type: TaskSingleReobf) {
 task reobfMainJar(type: TaskSingleReobf) {
     dependsOn tasks.jar
     setJar tasks.jar
+}
+
+task reobfTestModJar(type: TaskSingleReobs)
+{
+    dependsOn tasks.testModJar
+    setJar tasks.testModJar
 }
 
 javadoc {
@@ -198,6 +210,8 @@ curseforge {
             releaseType = System.getenv().CURSERELEASETYPE
 
             addArtifact apiJar
+            addArtifact testModJar
+
             relations {
                 requiredLibrary 'graphicsexpanded' // graphicsexpanded is required
             }

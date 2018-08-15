@@ -152,19 +152,10 @@ jar {
     classifier = 'universal'
 }
 
-task reobfApiJar(type: TaskSingleReobf) {
-    dependsOn tasks.apiJar
-    setJar tasks.apiJar
-}
-
-task reobfMainJar(type: TaskSingleReobf) {
-    dependsOn tasks.jar
-    setJar tasks.jar
-}
-
-task reobfTestModJar(type: TaskSingleReobf) {
-    dependsOn tasks.testModJar
-    setJar tasks.testModJar
+reobf {
+    jar {}
+    apiJar {}
+    testModJar {}
 }
 
 javadoc {

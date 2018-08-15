@@ -162,8 +162,7 @@ task reobfMainJar(type: TaskSingleReobf) {
     setJar tasks.jar
 }
 
-task reobfTestModJar(type: TaskSingleReobs)
-{
+task reobfTestModJar(type: TaskSingleReobf) {
     dependsOn tasks.testModJar
     setJar tasks.testModJar
 }

@@ -14,15 +14,14 @@ import com.ldtteam.animatrix.model.skin.ISkin;
 import com.ldtteam.graphicsexpanded.gpu.GPUMemoryManager;
 import com.ldtteam.graphicsexpanded.gpu.VAO;
 import io.netty.util.internal.ConcurrentSet;
-import net.minecraft.client.model.ModelOcelot;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 import java.util.Collection;
 import java.util.stream.Collectors;
 
-@SideOnly(Side.CLIENT)
+@OnlyIn(Dist.CLIENT)
 public class ModelLoaderManager implements IModelLoaderManager
 {
     private final ConcurrentSet<IModelLoader> loaders = new ConcurrentSet<>();

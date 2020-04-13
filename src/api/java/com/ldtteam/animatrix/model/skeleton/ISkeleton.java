@@ -1,6 +1,6 @@
 package com.ldtteam.animatrix.model.skeleton;
 
-import org.lwjgl.util.vector.Matrix4f;
+import com.ldtteam.graphicsexpanded.util.math.Matrix4f;
 
 public interface ISkeleton
 {

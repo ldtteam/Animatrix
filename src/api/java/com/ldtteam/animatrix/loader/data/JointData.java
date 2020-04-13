@@ -1,9 +1,10 @@
 package com.ldtteam.animatrix.loader.data;
 
+import com.ldtteam.graphicsexpanded.util.math.Matrix4f;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import org.lwjgl.util.vector.Matrix4f;
 
 /**
  * Contains the extracted data for a single joint in the model. This stores the

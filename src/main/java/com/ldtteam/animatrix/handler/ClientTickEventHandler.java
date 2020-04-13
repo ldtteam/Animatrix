@@ -3,26 +3,29 @@ package com.ldtteam.animatrix.handler;
 import com.ldtteam.animatrix.entity.IEntityAnimatrix;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.TickEvent;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 
-@SideOnly(Side.CLIENT)
+@OnlyIn(Dist.CLIENT)
 public class ClientTickEventHandler
 {
 
     @SubscribeEvent
     public void onTickClientTick(final TickEvent.ClientTickEvent event)
     {
-        if (Minecraft.getMinecraft().world == null)
+        if (Minecraft.getInstance().world == null)
             return;
 
-        Minecraft.getMinecraft()
+        Minecraft.getInstance()
           .world
-          .getEntities(Entity.class, IEntityAnimatrix.class::isInstance)
+          .getAllEntities()
           .forEach(e -> {
+              if (!(e instanceof IEntityAnimatrix))
+                  return;
+
               ((IEntityAnimatrix)e)
                   .getAnimatrixModel()
                   .getAnimator()

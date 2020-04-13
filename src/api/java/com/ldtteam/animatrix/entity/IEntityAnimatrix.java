@@ -1,8 +1,8 @@
 package com.ldtteam.animatrix.entity;
 
 import com.ldtteam.animatrix.model.IModel;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 public interface IEntityAnimatrix
 {
@@ -11,6 +11,6 @@ public interface IEntityAnimatrix
      *
      * @return The model for the entity.
      */
-    @SideOnly(Side.CLIENT)
+    @OnlyIn(Dist.CLIENT)
     IModel getAnimatrixModel();
 }

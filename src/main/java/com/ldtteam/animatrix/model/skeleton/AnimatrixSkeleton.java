@@ -2,14 +2,14 @@ package com.ldtteam.animatrix.model.skeleton;
 
 import com.ldtteam.animatrix.model.AnimatrixModel;
 import com.ldtteam.animatrix.util.array.ArrayUtility;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-import org.lwjgl.util.vector.Matrix4f;
+import com.ldtteam.graphicsexpanded.util.math.Matrix4f;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 /**
  * Represents a skeleton in a {@link AnimatrixModel}.
  */
-@SideOnly(Side.CLIENT)
+@OnlyIn(Dist.CLIENT)
 public class AnimatrixSkeleton implements ISkeleton
 {
     //The root joint of the skeleton.

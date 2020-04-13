@@ -3,13 +3,13 @@ package com.ldtteam.animatrix.model.skin;
 import com.ldtteam.animatrix.model.AnimatrixModel;
 import com.ldtteam.graphicsexpanded.gpu.VAO;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 /**
  * Represents the Skin of a {@link AnimatrixModel}
  */
-@SideOnly(Side.CLIENT)
+@OnlyIn(Dist.CLIENT)
 public class AnimatrixSkin implements ISkin
 {
     private final VAO              skinModel;

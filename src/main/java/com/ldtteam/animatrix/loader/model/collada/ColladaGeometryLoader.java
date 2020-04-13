@@ -6,12 +6,8 @@ import java.util.List;
 import com.ldtteam.animatrix.loader.data.MeshData;
 import com.ldtteam.animatrix.loader.data.Vertex;
 import com.ldtteam.animatrix.loader.data.VertexSkinData;
-import org.lwjgl.util.vector.Matrix4f;
-import org.lwjgl.util.vector.Vector2f;
-import org.lwjgl.util.vector.Vector3f;
-import org.lwjgl.util.vector.Vector4f;
-
 import com.ldtteam.animatrix.util.xml.XmlNode;
+import com.ldtteam.graphicsexpanded.util.math.*;
 
 /**
  * Loads the mesh data for a model from a collada XML file.
@@ -20,7 +16,6 @@ import com.ldtteam.animatrix.util.xml.XmlNode;
  */
 public class ColladaGeometryLoader
 {
-
 	private static final Matrix4f CORRECTION = new Matrix4f().rotate((float) Math.toRadians(-90), new Vector3f(1, 0,0));
 	
 	private final XmlNode meshData;

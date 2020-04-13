@@ -2,7 +2,7 @@ package com.ldtteam.animatrix.model.skeleton;
 
 import com.google.common.collect.ImmutableCollection;
 import org.jetbrains.annotations.NotNull;
-import org.lwjgl.util.vector.Matrix4f;
+import com.ldtteam.graphicsexpanded.util.math.Matrix4f;
 
 public interface IJoint
 {

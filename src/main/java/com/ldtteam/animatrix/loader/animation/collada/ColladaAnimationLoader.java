@@ -1,21 +1,21 @@
 package com.ldtteam.animatrix.loader.animation.collada;
 
 import com.ldtteam.animatrix.loader.animation.AnimationLoadingException;
-import com.ldtteam.animatrix.loader.data.*;
+import com.ldtteam.animatrix.loader.data.AnimationData;
 import com.ldtteam.animatrix.util.xml.XmlNode;
 import com.ldtteam.animatrix.util.xml.XmlParser;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
-@SideOnly(Side.CLIENT)
+@OnlyIn(Dist.CLIENT)
 public class ColladaAnimationLoader implements com.ldtteam.animatrix.loader.animation.IAnimationLoader
 {
 
     @Override
     public boolean canLoadAnimation(final ResourceLocation animationLocation)
     {
-        return animationLocation.getResourcePath().endsWith(".dae");
+        return animationLocation.getPath().endsWith(".dae");
     }
 
     @Override

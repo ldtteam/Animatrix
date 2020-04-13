@@ -1,9 +1,9 @@
 package com.ldtteam.animatrix.util.animation;
 
 import com.ldtteam.animatrix.model.animation.IJointTransform;
-import com.ldtteam.animatrix.util.math.QuaternionMath;
-import org.lwjgl.util.vector.Quaternion;
-import org.lwjgl.util.vector.Vector3f;
+import com.ldtteam.graphicsexpanded.util.math.Quaternion;
+import com.ldtteam.graphicsexpanded.util.math.QuaternionMath;
+import com.ldtteam.graphicsexpanded.util.math.Vector3f;
 
 public final class IJointTransformMath
 {

@@ -2,14 +2,14 @@ package com.ldtteam.animatrix.model.animator;
 
 import com.ldtteam.animatrix.model.animation.IAnimation;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
 
 /**
  * Handles the animation of {@link com.ldtteam.animatrix.model.IModel}
  */
-@SideOnly(Side.CLIENT)
+@OnlyIn(Dist.CLIENT)
 public interface IAnimator
 {
     default void startAnimation(@NotNull final IAnimation animation)

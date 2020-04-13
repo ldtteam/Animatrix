@@ -6,8 +6,8 @@ import java.util.List;
 import com.ldtteam.animatrix.loader.data.JointData;
 import com.ldtteam.animatrix.loader.data.SkeletonData;
 import org.lwjgl.BufferUtils;
-import org.lwjgl.util.vector.Matrix4f;
-import org.lwjgl.util.vector.Vector3f;
+import com.ldtteam.graphicsexpanded.util.math.Matrix4f;
+import com.ldtteam.graphicsexpanded.util.math.Vector3f;
 
 import com.ldtteam.animatrix.util.xml.XmlNode;
 

@@ -5,22 +5,20 @@ import com.ldtteam.animatrix.loader.data.JointTransformData;
 import com.ldtteam.animatrix.loader.data.KeyFrameData;
 import com.ldtteam.animatrix.model.IModel;
 import com.ldtteam.animatrix.model.animation.*;
-import com.ldtteam.animatrix.util.math.QuaternionMath;
+import com.ldtteam.graphicsexpanded.util.math.QuaternionMath;
 import io.netty.util.internal.ConcurrentSet;
+import com.ldtteam.graphicsexpanded.util.math.Matrix4f;
+import com.ldtteam.graphicsexpanded.util.math.Quaternion;
+import com.ldtteam.graphicsexpanded.util.math.Vector3f;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-import org.lwjgl.util.vector.Matrix4f;
-import org.lwjgl.util.vector.Quaternion;
-import org.lwjgl.util.vector.Vector3f;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
 
-@SideOnly(Side.CLIENT)
+@OnlyIn(Dist.CLIENT)
 public class AnimationLoaderManager implements IAnimationLoaderManager
 {
     private final ConcurrentSet<IAnimationLoader> loaders = new ConcurrentSet<>();

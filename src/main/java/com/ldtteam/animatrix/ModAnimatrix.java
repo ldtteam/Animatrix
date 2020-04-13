@@ -8,20 +8,29 @@ import com.ldtteam.animatrix.loader.model.IModelLoaderManager;
 import com.ldtteam.animatrix.loader.model.ModelLoaderManager;
 import com.ldtteam.animatrix.loader.model.collada.ColladaModelLoader;
 import com.ldtteam.animatrix.render.shader.AnimatrixShader;
+import com.ldtteam.animatrix.test.command.CommandSpawnTestEntity;
+import com.ldtteam.animatrix.test.entity.AnimatrixTestEntity;
+import com.ldtteam.animatrix.test.render.AnimatrixTestRender;
 import com.ldtteam.animatrix.util.Constants;
 import com.ldtteam.animatrix.util.Log;
+import net.minecraft.client.Minecraft;
+import net.minecraft.entity.EntityClassification;
+import net.minecraft.entity.EntityType;
+import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
+import org.apache.logging.log4j.LogManager;
 
 import java.io.IOException;
 
-@Mod(modid = Constants.General.MOD_ID, name = Constants.General.MOD_NAME, version = Constants.General.MOD_VERSION, dependencies = "required-after:graphicsexpanded")
+@Mod(Constants.General.MOD_ID)
 public class ModAnimatrix
 {
     // Instance of this mod use for internal and Forge references
-    @Mod.Instance(Constants.General.MOD_ID)
     public static ModAnimatrix instance;
 
     public static ModAnimatrix getInstance()
@@ -31,30 +40,51 @@ public class ModAnimatrix
 
     private AnimatrixShader shader;
 
-    @SuppressWarnings("NewExpressionSideOnly")
-    @Mod.EventHandler
-    public void onFMLPreInitialization(final FMLPreInitializationEvent event)
+    public ModAnimatrix() {
+        instance = this;
+        DistExecutor.runWhenOn(Dist.CLIENT, () -> () -> Mod.EventBusSubscriber.Bus.MOD.bus().get().addGenericListener(EntityType.class, this::registerEntity));
+        DistExecutor.runWhenOn(Dist.CLIENT, () -> () -> Mod.EventBusSubscriber.Bus.FORGE.bus().get().addListener(this::onServerStarting));
+        DistExecutor.runWhenOn(Dist.CLIENT, () -> () -> Mod.EventBusSubscriber.Bus.MOD.bus().get().addListener(this::onClientInitialization));
+    }
+
+    private void registerEntity(final RegistryEvent.Register<EntityType<?>> entityTypeRegister)
     {
-        if (event.getSide() != Side.CLIENT)
-            return;
+        AnimatrixTestEntity.ENTITY_TYPE = EntityType.Builder.create((EntityType.IFactory<AnimatrixTestEntity>) (p_create_1_, p_create_2_) -> new AnimatrixTestEntity(p_create_2_), EntityClassification.MISC)
+                .build("animatrix:test");
+        AnimatrixTestEntity.ENTITY_TYPE.setRegistryName("animatrix:test");
 
-        Log.setLogger(event.getModLog());
-        try
-        {
-            shader = new AnimatrixShader();
-            IModelLoaderManager.Holder.setup(new ModelLoaderManager());
-            IAnimationLoaderManager.Holder.setup(new AnimationLoaderManager());
+        entityTypeRegister.getRegistry().register(AnimatrixTestEntity.ENTITY_TYPE);
+    }
 
-            IModelLoaderManager.getInstance().registerLoader(new ColladaModelLoader());
-            IAnimationLoaderManager.getInstance().registerLoader(new ColladaAnimationLoader());
+    private void onServerStarting(final FMLServerStartingEvent serverStartingEvent)
+    {
+        CommandSpawnTestEntity.register(serverStartingEvent.getCommandDispatcher());
+    }
 
+    private void onClientInitialization(final FMLClientSetupEvent event)
+    {
+        Log.setLogger(LogManager.getLogger());
+        DistExecutor.runWhenOn(Dist.CLIENT, () -> () -> {
+            Minecraft.getInstance().execute(() -> {
+                try
+                {
+                    shader = new AnimatrixShader();
+                    IModelLoaderManager.Holder.setup(new ModelLoaderManager());
+                    IAnimationLoaderManager.Holder.setup(new AnimationLoaderManager());
+
+                    IModelLoaderManager.getInstance().registerLoader(new ColladaModelLoader());
+                    IAnimationLoaderManager.getInstance().registerLoader(new ColladaAnimationLoader());
+
+                }
+                catch (final IOException e)
+                {
+                    Log.getLogger().error("Failed to load Animatrix.", e);
+                    throw new RuntimeException("Animatrix failure during loading.");
+                }
+            });
             MinecraftForge.EVENT_BUS.register(new ClientTickEventHandler());
-        }
-        catch (final IOException e)
-        {
-            Log.getLogger().error("Failed to load Animatrix.", e);
-            throw new RuntimeException("Animatrix failure during loading.");
-        }
+            Minecraft.getInstance().getRenderManager().register(AnimatrixTestEntity.ENTITY_TYPE, new AnimatrixTestRender(Minecraft.getInstance().getRenderManager()));
+        });
     }
 
     public AnimatrixShader getShader()

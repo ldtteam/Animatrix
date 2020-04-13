@@ -1,7 +1,7 @@
 package com.ldtteam.animatrix.model.animation;
 
 import net.minecraft.util.ResourceLocation;
-import org.lwjgl.util.vector.Matrix4f;
+import com.ldtteam.graphicsexpanded.util.math.Matrix4f;
 
 import java.util.Map;
 import java.util.function.Consumer;

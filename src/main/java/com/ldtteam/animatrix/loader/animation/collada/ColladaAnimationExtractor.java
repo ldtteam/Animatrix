@@ -7,8 +7,8 @@ import com.ldtteam.animatrix.loader.data.AnimationData;
 import com.ldtteam.animatrix.loader.data.JointTransformData;
 import com.ldtteam.animatrix.loader.data.KeyFrameData;
 import org.lwjgl.BufferUtils;
-import org.lwjgl.util.vector.Matrix4f;
-import org.lwjgl.util.vector.Vector3f;
+import com.ldtteam.graphicsexpanded.util.math.Matrix4f;
+import com.ldtteam.graphicsexpanded.util.math.Vector3f;
 
 import com.ldtteam.animatrix.util.xml.XmlNode;
 

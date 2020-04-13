@@ -4,13 +4,13 @@ import com.ldtteam.animatrix.model.animator.AnimatrixAnimator;
 import com.ldtteam.animatrix.model.animator.IAnimator;
 import com.ldtteam.animatrix.model.skeleton.ISkeleton;
 import com.ldtteam.animatrix.model.skin.ISkin;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 /**
  * Represents a single model in Animatrix.
  */
-@SideOnly(Side.CLIENT)
+@OnlyIn(Dist.CLIENT)
 public class AnimatrixModel implements IModel
 {
     private final ISkeleton skeleton;

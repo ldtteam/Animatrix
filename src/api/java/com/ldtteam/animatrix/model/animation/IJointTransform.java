@@ -1,9 +1,9 @@
 package com.ldtteam.animatrix.model.animation;
 
 import com.ldtteam.animatrix.model.skeleton.IJoint;
-import org.lwjgl.util.vector.Matrix4f;
-import org.lwjgl.util.vector.Quaternion;
-import org.lwjgl.util.vector.Vector3f;
+import com.ldtteam.graphicsexpanded.util.math.Matrix4f;
+import com.ldtteam.graphicsexpanded.util.math.Quaternion;
+import com.ldtteam.graphicsexpanded.util.math.Vector3f;
 
 /**
  * Represents a single transform of a single joint in a keyframe.

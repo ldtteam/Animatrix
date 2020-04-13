@@ -1,14 +1,14 @@
 package com.ldtteam.animatrix.util.xml;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import net.minecraft.client.Minecraft;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
  * Reads an XML file and stores all the data in {@link XmlNode} objects,
@@ -17,7 +17,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
  * @author Karl
  *
  */
-@SideOnly(Side.CLIENT)
+@OnlyIn(Dist.CLIENT)
 public class XmlParser {
 
 	private static final Pattern DATA = Pattern.compile(">(.+?)<");
@@ -34,7 +34,7 @@ public class XmlParser {
 	 * @return The root node of the XML structure.
 	 */
 	public static XmlNode loadXmlFile(final ResourceLocation file) throws Exception {
-        final BufferedReader reader = new BufferedReader(new InputStreamReader(Minecraft.getMinecraft().getResourceManager().getResource(file).getInputStream()));
+        final BufferedReader reader = new BufferedReader(new InputStreamReader(Minecraft.getInstance().getResourceManager().getResource(file).getInputStream()));
         reader.readLine();
         final XmlNode node = loadNode(reader);
         reader.close();
@@ -53,7 +53,7 @@ public class XmlParser {
 		if (CLOSED.matcher(line).find()) {
 			return node;
 		}
-		XmlNode child = null;
+		XmlNode child;
 		while ((child = loadNode(reader)) != null) {
 			node.addChild(child);
 		}

@@ -6,18 +6,21 @@ import com.ldtteam.animatrix.model.AnimatrixModel;
 import com.ldtteam.animatrix.model.IModel;
 import com.ldtteam.animatrix.model.animation.IAnimation;
 import com.ldtteam.animatrix.model.skeleton.IJoint;
+import com.ldtteam.graphicsexpanded.util.math.Matrix4f;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
-import org.lwjgl.util.vector.Matrix4f;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 /**
  * Handles the animation of {@link AnimatrixModel}
  */
-@SideOnly(Side.CLIENT)
+@OnlyIn(Dist.CLIENT)
 public class AnimatrixAnimator implements IAnimator
 {
 

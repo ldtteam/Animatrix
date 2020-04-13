@@ -1,27 +1,27 @@
 package com.ldtteam.animatrix.loader.model.collada;
 
-import com.ldtteam.animatrix.loader.model.ModelLoadingException;
 import com.ldtteam.animatrix.loader.data.AnimatedModelData;
 import com.ldtteam.animatrix.loader.data.MeshData;
 import com.ldtteam.animatrix.loader.data.SkeletonData;
 import com.ldtteam.animatrix.loader.data.SkinningData;
 import com.ldtteam.animatrix.loader.model.IModelLoader;
+import com.ldtteam.animatrix.loader.model.ModelLoadingException;
 import com.ldtteam.animatrix.util.Constants;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-import org.jetbrains.annotations.NotNull;
 import com.ldtteam.animatrix.util.xml.XmlNode;
 import com.ldtteam.animatrix.util.xml.XmlParser;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+import org.jetbrains.annotations.NotNull;
 
-@SideOnly(Side.CLIENT)
+@OnlyIn(Dist.CLIENT)
 public class ColladaModelLoader implements IModelLoader
 {
 
     @Override
     public boolean canLoadModel(@NotNull final ResourceLocation modelLocation)
     {
-        return modelLocation.getResourcePath().endsWith(".dae");
+        return modelLocation.getPath().endsWith(".dae");
     }
 
     @Override

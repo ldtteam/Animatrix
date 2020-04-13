@@ -1,16 +1,15 @@
 package com.ldtteam.animatrix.model.animator;
 
 import com.ldtteam.animatrix.model.animation.IAnimation;
-import net.minecraft.util.ITickable;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 import java.util.function.Consumer;
 
 /**
  * Animators information for a animation and for example the amount of repetitions.
  */
-@SideOnly(Side.CLIENT)
+@OnlyIn(Dist.CLIENT)
 public class AnimatrixAnimatorAnimationInformation implements IAnimatorAnimationInformation
 {
     private final IAnimation animation;

@@ -19,6 +19,7 @@ import net.minecraft.entity.EntityType;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.fml.DeferredWorkQueue;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
@@ -65,7 +66,7 @@ public class ModAnimatrix
     {
         Log.setLogger(LogManager.getLogger());
         DistExecutor.runWhenOn(Dist.CLIENT, () -> () -> {
-            Minecraft.getInstance().execute(() -> {
+            DeferredWorkQueue.runLaterChecked(() -> {
                 try
                 {
                     shader = new AnimatrixShader();
@@ -74,7 +75,6 @@ public class ModAnimatrix
 
                     IModelLoaderManager.getInstance().registerLoader(new ColladaModelLoader());
                     IAnimationLoaderManager.getInstance().registerLoader(new ColladaAnimationLoader());
-
                 }
                 catch (final IOException e)
                 {
@@ -82,6 +82,7 @@ public class ModAnimatrix
                     throw new RuntimeException("Animatrix failure during loading.");
                 }
             });
+
             MinecraftForge.EVENT_BUS.register(new ClientTickEventHandler());
             Minecraft.getInstance().getRenderManager().register(AnimatrixTestEntity.ENTITY_TYPE, new AnimatrixTestRender(Minecraft.getInstance().getRenderManager()));
         });

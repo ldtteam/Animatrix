@@ -15,6 +15,7 @@ import net.minecraft.command.arguments.ResourceLocationArgument;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.fml.server.ServerLifecycleHooks;
 
 @OnlyIn(Dist.CLIENT)
 public class CommandSpawnTestEntity
@@ -38,15 +39,19 @@ public class CommandSpawnTestEntity
 
     public static Command<CommandSource> makeSpawnCommand() {
         return context -> {
-            Minecraft.getInstance().execute(() -> {
-                final AnimatrixTestEntity entity = AnimatrixTestEntity.ENTITY_TYPE.create(Minecraft.getInstance().world);
+            ServerLifecycleHooks.getCurrentServer().execute(() -> {
+                final AnimatrixTestEntity entity;
+                try {
+                    entity = AnimatrixTestEntity.ENTITY_TYPE.create(context.getSource().asPlayer().world);
+                } catch (CommandSyntaxException e) {
+                    e.printStackTrace();
+                    return;
+                }
 
                 final ResourceLocation location = context.getArgument("location", ResourceLocation.class);
                 final ResourceLocation texture = context.getArgument("texture", ResourceLocation.class);
 
-
-                final IModel model = IModelLoaderManager.getInstance().loadModel(location, texture);
-                entity.setModel(model);
+                entity.setModel(location, texture);
                 entity.setPositionAndUpdate(Minecraft.getInstance().player.getPosX(), Minecraft.getInstance().player.getPosY(), Minecraft.getInstance().player.getPosZ());
 
                 try {
@@ -69,17 +74,7 @@ public class CommandSpawnTestEntity
                 final ResourceLocation texture = context.getArgument("texture", ResourceLocation.class);
                 final ResourceLocation animation = context.getArgument("animation", ResourceLocation.class);
 
-                final IModel model = IModelLoaderManager.getInstance().loadModel(texture, location);
-                try
-                {
-                    model.getAnimator().startAnimation(IAnimationLoaderManager.getInstance().loadAnimation(model, animation));
-                }
-                catch (final Exception e)
-                {
-                    Log.getLogger().error("Failed to load animation.", e);
-                }
-
-                entity.setModel(model);
+                entity.setModel(location, texture);
                 entity.setPositionAndUpdate(Minecraft.getInstance().player.getPosX(), Minecraft.getInstance().player.getPosY(), Minecraft.getInstance().player.getPosZ());
 
                 Minecraft.getInstance().world.addEntity(entity);

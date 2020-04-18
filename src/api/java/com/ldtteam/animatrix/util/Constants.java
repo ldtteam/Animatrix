@@ -50,6 +50,7 @@ public final class Constants
         {
             public static final Integer CONST_MAX_WEIGHTS_PER_VERTEX = 3;
             public static final Integer CONST_MAX_JOINT_COUNT = 50;
+            public static final Integer CONST_MAX_DIFFUSE_LIGHT_COUNT = 2;
         }
     }
 

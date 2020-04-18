@@ -63,8 +63,9 @@ public class ModelLoaderManager implements IModelLoaderManager
         meshVao.createIndexBuffer(data.getIndices());
         meshVao.createAttribute(0, data.getVertices(), 3);
         meshVao.createAttribute(1, data.getTextureCoords(), 2);
-        meshVao.createIntAttribute(2, data.getJointIds(), 3);
-        meshVao.createAttribute(3, data.getVertexWeights(), 3);
+        meshVao.createAttribute(2, data.getNormals(), 3);
+        meshVao.createIntAttribute(3, data.getJointIds(), 3);
+        meshVao.createAttribute(4, data.getVertexWeights(), 3);
         meshVao.unbind();
         return meshVao;
     }

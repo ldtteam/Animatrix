@@ -13,7 +13,7 @@ in vec2 pass_textureCoords;
 out vec4 out_fragmentColor;
 
 void main() {
-    vec4 textureColor = texture(textureSampler, pass_textureCoords);
+    vec4 textureColor = texture2D(textureSampler, pass_textureCoords);
     vec4 overlayColor = texture(overlaySampler, overlayTextureCoords);
     vec4 lightMapColor = texture(lightmapSampler, lightMapTextureCoords);
     vec3 combinedColor = vec3(1,1,1);
@@ -21,5 +21,5 @@ void main() {
     vec3 litColor = combinedColor * vec3(lightMapColor) * vec3(textureColor);
     vec3 overlayedColor = vec3(overlayColor) * litColor;
 
-    out_fragmentColor = vec4(overlayedColor, textureColor.w);
+    out_fragmentColor = vec4(0.5, 0, 0, 1); //vec4(overlayedColor, textureColor.w);
 }

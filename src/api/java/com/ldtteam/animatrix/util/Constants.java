@@ -42,6 +42,7 @@ public final class Constants
         {
             public static final String CONST_POSITION = "in_position";
             public static final String CONST_TEXTURE_COORDS = "in_textureCoords";
+            public static final String CONST_NORMALS = "in_normal";
             public static final String CONST_JOINT_INDICES = "in_jointIndices";
             public static final String CONST_WEIGHTS = "in_weights";
         }

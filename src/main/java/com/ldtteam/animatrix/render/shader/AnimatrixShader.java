@@ -1,7 +1,7 @@
 package com.ldtteam.animatrix.render.shader;
 
 import com.ldtteam.animatrix.util.Constants;
-import com.ldtteam.graphicsexpanded.shader.program.ShaderProgram;
+import com.ldtteam.graphicsexpanded.shader.ShaderProgram;
 import com.ldtteam.graphicsexpanded.shader.uniform.UniformArray;
 import com.ldtteam.graphicsexpanded.shader.uniform.UniformMatrix;
 import com.ldtteam.graphicsexpanded.shader.uniform.UniformPrimitive;
@@ -29,7 +29,7 @@ public class AnimatrixShader extends ShaderProgram
 
     public AnimatrixShader() throws IOException
     {
-        super(Constants.Shaders.Vertex.ANIMATRIX_DEFAULT, Constants.Shaders.Fragment.ANIMATRIX_DEFAULT, CONST_POSITION, CONST_TEXTURE_COORDS, CONST_JOINT_INDICES, CONST_WEIGHTS);
+        super(Constants.Shaders.Vertex.ANIMATRIX_DEFAULT, Constants.Shaders.Fragment.ANIMATRIX_DEFAULT, CONST_POSITION, CONST_TEXTURE_COORDS, CONST_NORMALS, CONST_JOINT_INDICES, CONST_WEIGHTS);
         super.storeAllUniformLocations(
                 modelViewMatrix,
                 projectionMatrix,

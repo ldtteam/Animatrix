@@ -73,9 +73,9 @@ dependencies {
     minecraft 'net.minecraftforge:forge:1.15.2-31.1.16'
     apiImplementation "com.intellij:annotations:+@jar"
     implementation 'com.intellij:annotations:+@jar'
-    apiImplementation fg.deobf('com.ldtteam:graphicsexpanded:0.10.10-ALPHA')
-    implementation fg.deobf('com.ldtteam:graphicsexpanded:0.10.10-ALPHA')
-    contained 'com.ldtteam:graphicsexpanded:0.10.10-ALPHA'
+    apiImplementation fg.deobf('com.ldtteam:graphicsexpanded:0.10.13-ALPHA')
+    implementation fg.deobf('com.ldtteam:graphicsexpanded:0.10.13-ALPHA')
+    contained 'com.ldtteam:graphicsexpanded:0.10.13-ALPHA'
 }
 
 version = '1.15.2' + System.getenv().containsKey("Version") ? System.getenv("Version") : 'null'

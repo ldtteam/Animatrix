@@ -32,6 +32,8 @@ public class CommandSpawnTestEntity
 
     //  /at_test animatrix:models/entities/human.dae animatrix:textures/entities/skin.png
     //  /at_test animatrix:models/entities/human.dae animatrix:textures/entities/skin.png animatrix:animations/entities/human.dae
+
+    //  /at_test animatrix:models/entities/quad.dae minecraft:textures/block/blue_ice.png
     public static void register(final CommandDispatcher<CommandSource> commandSourceCommandDispatcher)
     {
         commandSourceCommandDispatcher.register(Commands.literal("at_test").then(Commands.argument("location", ResourceLocationArgument.resourceLocation()).then(Commands.argument("texture", ResourceLocationArgument.resourceLocation()).then(Commands.argument("animation", ResourceLocationArgument.resourceLocation()).executes(makeSpawnWithAnimationCommand())).executes(makeSpawnCommand()))));

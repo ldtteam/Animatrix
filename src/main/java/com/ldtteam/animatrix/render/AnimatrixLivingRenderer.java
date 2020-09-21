@@ -46,11 +46,11 @@ public class AnimatrixLivingRenderer<T extends LivingEntity & IEntityAnimatrix> 
     protected RenderType getRenderType(T entityType, boolean isVisible, boolean visibleToPlayer) {
         ResourceLocation resourcelocation = this.getEntityTexture(entityType);
         if (visibleToPlayer) {
-            return RenderType.getEntityTranslucent(resourcelocation);
+            return RenderType.entityTranslucent(resourcelocation);
         } else if (isVisible) {
-            return RenderType.getEntityCutoutNoCull(resourcelocation);
+            return RenderType.entityTranslucent(resourcelocation);
         } else {
-            return entityType.isGlowing() ? RenderType.getOutline(resourcelocation) : null;
+            return entityType.isGlowing() ? RenderType.outline(resourcelocation) : null;
         }
     }
 
@@ -81,27 +81,16 @@ public class AnimatrixLivingRenderer<T extends LivingEntity & IEntityAnimatrix> 
             return;
 
         matrixStackIn.push();
-        //matrixStackIn.translate(entityIn.getPosX(), entityIn.getPosY(), entityIn.getPosZ());
-        //matrixStackIn.rotate(new Quaternion(Vector3f.YP, entityYaw, false));
-
-        matrixStackIn.scale(16f, 16f, 16f);
 
         //Setup the shader.
         ModAnimatrix.getInstance().getShader().start();
-        renderType.setupRenderState();
-        RenderSystem.disableCull();
-        RenderSystem.disableLighting();
-        RenderSystem.disableDepthTest();
-        Minecraft.getInstance().getTextureManager().bindTexture(getEntityTexture(entityIn));
-        ModAnimatrix.getInstance().getShader().getModelViewMatrix().load(matrixStackIn.getLast().getMatrix());
+        renderType.enable();
+        ModAnimatrix.getInstance().getShader().getModelViewMatrix().load(matrixStackIn.getLast().getPositionMatrix());
         ModAnimatrix.getInstance().getShader().getProjectionMatrix().load(projectionMatrix);
         ModAnimatrix.getInstance().getShader().getLightMapTextureCoords().load(((packedLightIn & 0xFFFF) / 256.0f) + 0.03125f, ((packedLightIn >>> 16) / 256.0f) + 0.03125f);
         ModAnimatrix.getInstance().getShader().getOverlayTextureCoords().load((short)(packedOverlay & '\uffff') / 16.0f, (short)(packedOverlay >>> 16 & '\uffff') / 16.0f);
-        ModAnimatrix.getInstance().getShader().getJointTransforms().load(entityIn.getAnimatrixModel().getSkeleton().getAnimationModelSpaceTransformsFromJoints());
 
-        ModAnimatrix.getInstance().getShader().getTextureSampler().load(0);
-        //ModAnimatrix.getInstance().getShader().getTextureSampler().load(1);
-        //ModAnimatrix.getInstance().getShader().getTextureSampler().load(2);
+        ModAnimatrix.getInstance().getShader().getJointTransforms().load(entityIn.getAnimatrixModel().getSkeleton().getAnimationModelSpaceTransformsFromJoints());
 
         entityIn.getAnimatrixModel().getSkin().getSkinModel().bind(0,1,2,3,4);
 
@@ -109,8 +98,8 @@ public class AnimatrixLivingRenderer<T extends LivingEntity & IEntityAnimatrix> 
 
         entityIn.getAnimatrixModel().getSkin().getSkinModel().unbind(0,1,2,3,4);
 
+        renderType.disable();
         ModAnimatrix.getInstance().getShader().stop();
-        renderType.clearRenderState();
         matrixStackIn.pop();
     }
 }

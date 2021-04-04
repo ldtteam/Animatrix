@@ -1,8 +1,10 @@
 package com.ldtteam.animatrix.test.command;
 
+import com.ldtteam.animatrix.loader.animation.AnimationLoadingException;
 import com.ldtteam.animatrix.loader.animation.IAnimationLoaderManager;
 import com.ldtteam.animatrix.loader.model.IModelLoaderManager;
 import com.ldtteam.animatrix.model.IModel;
+import com.ldtteam.animatrix.model.animation.IAnimation;
 import com.ldtteam.animatrix.test.entity.AnimatrixTestEntity;
 import com.ldtteam.animatrix.util.Log;
 import com.mojang.brigadier.Command;
@@ -69,12 +71,37 @@ public class CommandSpawnTestEntity
 
     public static Command<CommandSource> makeSpawnWithAnimationCommand() {
         return context -> {
+            ServerLifecycleHooks.getCurrentServer().execute(() -> {
+                final AnimatrixTestEntity entity;
+                try {
+                    entity = AnimatrixTestEntity.ENTITY_TYPE.create(context.getSource().asPlayer().world);
+                } catch (CommandSyntaxException e) {
+                    e.printStackTrace();
+                    return;
+                }
+
+                final ResourceLocation location = context.getArgument("location", ResourceLocation.class);
+                final ResourceLocation texture = context.getArgument("texture", ResourceLocation.class);
+                final ResourceLocation animation = context.getArgument("animation", ResourceLocation.class);
+
+
+
+                entity.setModel(location, texture);
+                entity.setPositionAndUpdate(Minecraft.getInstance().player.getPosX(), Minecraft.getInstance().player.getPosY(), Minecraft.getInstance().player.getPosZ());
+                entity.queueAnimation(animation);
+
+                try {
+                    context.getSource().asPlayer().getServerWorld().addEntity(entity);
+                } catch (CommandSyntaxException e) {
+                    e.printStackTrace();
+                }
+            });
+
             Minecraft.getInstance().execute(() -> {
                 final AnimatrixTestEntity entity = AnimatrixTestEntity.ENTITY_TYPE.create(Minecraft.getInstance().world);
 
                 final ResourceLocation location = context.getArgument("location", ResourceLocation.class);
                 final ResourceLocation texture = context.getArgument("texture", ResourceLocation.class);
-                final ResourceLocation animation = context.getArgument("animation", ResourceLocation.class);
 
                 entity.setModel(location, texture);
                 entity.setPositionAndUpdate(Minecraft.getInstance().player.getPosX(), Minecraft.getInstance().player.getPosY(), Minecraft.getInstance().player.getPosZ());

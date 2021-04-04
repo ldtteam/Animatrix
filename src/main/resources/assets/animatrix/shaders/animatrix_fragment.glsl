@@ -20,5 +20,5 @@ void main() {
     vec3 litColor = combinedColor * vec3(lightMapColor) * vec3(textureColor);
     vec3 overlayedColor = vec3(overlayColor) * litColor;
 
-    out_fragmentColor = vec4(1, 0, 0, 1); //vec4(overlayedColor, textureColor.w);
+    out_fragmentColor = vec4(overlayedColor, textureColor.w);
 }

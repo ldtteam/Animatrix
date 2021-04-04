@@ -92,11 +92,11 @@ public class AnimatrixLivingRenderer<T extends LivingEntity & IEntityAnimatrix> 
 
         ModAnimatrix.getInstance().getShader().getJointTransforms().load(entityIn.getAnimatrixModel().getSkeleton().getAnimationModelSpaceTransformsFromJoints());
 
-        entityIn.getAnimatrixModel().getSkin().getSkinModel().bind();
+        entityIn.getAnimatrixModel().getSkin().getSkinModel().bind(0,1,2,3,4);
 
         GL11.glDrawElements(GL11.GL_TRIANGLES, entityIn.getAnimatrixModel().getSkin().getSkinModel().getIndexCount(), GL11.GL_UNSIGNED_INT, 0);
 
-        entityIn.getAnimatrixModel().getSkin().getSkinModel().unbind();
+        entityIn.getAnimatrixModel().getSkin().getSkinModel().unbind(0,1,2,3,4);
 
         renderType.disable();
         ModAnimatrix.getInstance().getShader().stop();

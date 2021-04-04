@@ -51,4 +51,10 @@ public interface IAnimator
      * Applies the joint pose of all animations to the models skeleton.
      */
     void onUpdate();
+
+    /**
+     * Invoked before the rendering happens.
+     * Allows the joint transforms to be updated.
+     */
+    void onPreRender();
 }

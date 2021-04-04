@@ -7,9 +7,8 @@ import net.minecraft.entity.Entity;
 
 public class EmptyMCModel<T extends Entity> extends EntityModel<T> {
 
-    @Override
-    public void render(final T entityIn, final float limbSwing, final float limbSwingAmount, final float ageInTicks, final float netHeadYaw, final float headPitch) {
-
+    public EmptyMCModel()
+    {
     }
 
     @Override
@@ -22,6 +21,22 @@ public class EmptyMCModel<T extends Entity> extends EntityModel<T> {
                     final float green,
                     final float blue,
                     final float alpha) {
+
+    }
+
+    /**
+     * Sets this entity's model rotation angles
+     *
+     * @param entityIn
+     * @param limbSwing
+     * @param limbSwingAmount
+     * @param ageInTicks
+     * @param netHeadYaw
+     * @param headPitch
+     */
+    @Override
+    public void setRotationAngles(final T entityIn, final float limbSwing, final float limbSwingAmount, final float ageInTicks, final float netHeadYaw, final float headPitch)
+    {
 
     }
 }

@@ -75,8 +75,16 @@ public class AnimatrixAnimator implements IAnimator
     {
         final ArrayList<IAnimatorAnimationInformation> finishedAnimations = Lists.newArrayList();
         runningAnimations.forEach(iAnimatorAnimationInformation -> iAnimatorAnimationInformation.update(finishedAnimations::add));
-        applyAllPosesToJoints();
         runningAnimations.removeAll(finishedAnimations);
+    }
+
+    /**
+     * Invoked before the rendering happens. Allows the joint transforms to be updated.
+     */
+    @Override
+    public void onPreRender()
+    {
+        applyAllPosesToJoints();
     }
 
     /**

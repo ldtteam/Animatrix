@@ -16,14 +16,17 @@ import com.ldtteam.animatrix.util.Log;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.ai.attributes.GlobalEntityTypeAttributes;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.fml.DeferredWorkQueue;
+import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
-import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import org.apache.logging.log4j.LogManager;
 
 import java.io.IOException;
@@ -43,9 +46,10 @@ public class ModAnimatrix
 
     public ModAnimatrix() {
         instance = this;
-        DistExecutor.runWhenOn(Dist.CLIENT, () -> () -> Mod.EventBusSubscriber.Bus.MOD.bus().get().addGenericListener(EntityType.class, this::registerEntity));
-        DistExecutor.runWhenOn(Dist.CLIENT, () -> () -> Mod.EventBusSubscriber.Bus.FORGE.bus().get().addListener(this::onServerStarting));
-        DistExecutor.runWhenOn(Dist.CLIENT, () -> () -> Mod.EventBusSubscriber.Bus.MOD.bus().get().addListener(this::onClientInitialization));
+        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> Mod.EventBusSubscriber.Bus.MOD.bus().get().addGenericListener(EntityType.class, this::registerEntity));
+        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> Mod.EventBusSubscriber.Bus.MOD.bus().get().addListener(this::onEntityAttributeCreation));
+        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> Mod.EventBusSubscriber.Bus.FORGE.bus().get().addListener(this::onRegisterCommands));
+        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> Mod.EventBusSubscriber.Bus.MOD.bus().get().addListener(this::onClientInitialization));
     }
 
     private void registerEntity(final RegistryEvent.Register<EntityType<?>> entityTypeRegister)
@@ -57,16 +61,23 @@ public class ModAnimatrix
         entityTypeRegister.getRegistry().register(AnimatrixTestEntity.ENTITY_TYPE);
     }
 
-    private void onServerStarting(final FMLServerStartingEvent serverStartingEvent)
+    public void onEntityAttributeCreation(final EntityAttributeCreationEvent event)
     {
-        CommandSpawnTestEntity.register(serverStartingEvent.getCommandDispatcher());
+        event.put(
+          AnimatrixTestEntity.ENTITY_TYPE, LivingEntity.registerAttributes().create()
+        );
+    }
+
+    public void onRegisterCommands(final RegisterCommandsEvent event)
+    {
+        CommandSpawnTestEntity.register(event.getDispatcher());
     }
 
     private void onClientInitialization(final FMLClientSetupEvent event)
     {
         Log.setLogger(LogManager.getLogger());
-        DistExecutor.runWhenOn(Dist.CLIENT, () -> () -> {
-            DeferredWorkQueue.runLaterChecked(() -> {
+        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {
+            event.enqueueWork(() -> {
                 try
                 {
                     shader = new AnimatrixShader();
